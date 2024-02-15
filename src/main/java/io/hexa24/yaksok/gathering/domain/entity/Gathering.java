@@ -6,6 +6,8 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.geo.Point;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -14,7 +16,9 @@ import lombok.Getter;
 @Builder
 public class Gathering {
     @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
+    
     private String name;
     private Point point; 
 }
