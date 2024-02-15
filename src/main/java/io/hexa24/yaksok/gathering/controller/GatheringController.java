@@ -14,9 +14,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import io.hexa24.yaksok.gathering.domain.dto.GatheringDTO;
+import io.hexa24.yaksok.gathering.domain.dto.GatheringReqDTO;
 import io.hexa24.yaksok.gathering.domain.entity.Gathering;
 import io.hexa24.yaksok.gathering.service.GathringService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -33,14 +34,14 @@ public class GatheringController {
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public GatheringDTO getGathering(@PathVariable UUID id) {
-        Gathering gathering = gatheringService.findGathering(id); // 이 코드가 꼭 필요할지는 고민, PathVariable에서 null 값이 들어올 수 있나?
-        GatheringDTO gatheringDTO = convertToDto(gathering);
+    public GatheringReqDTO getGathering(@PathVariable UUID id) {
+        Gathering gathering = gatheringService.findGathering(id);
+        GatheringReqDTO gatheringDTO = convertToDto(gathering);
         return gatheringDTO;
     }
 
     @PostMapping("")
-    public ResponseEntity<?> postGathering(@RequestBody GatheringDTO gatheringDTO, UriComponentsBuilder uriBuilder) throws ParseException {
+    public ResponseEntity<?> postGathering(@RequestBody @Valid GatheringReqDTO gatheringDTO, UriComponentsBuilder uriBuilder) throws ParseException {
         Gathering gathering = convertToEntity(gatheringDTO);
 
         Gathering saved = gatheringService.addGathering(gathering);
@@ -49,13 +50,13 @@ public class GatheringController {
         return ResponseEntity.created(location).build();
     }
 
-    private GatheringDTO convertToDto(Gathering gathering) {
-        GatheringDTO gatheringDTO = modelMapper.map(gathering, GatheringDTO.class);
+    private GatheringReqDTO convertToDto(Gathering gathering) {
+        GatheringReqDTO gatheringDTO = modelMapper.map(gathering, GatheringReqDTO.class);
         return gatheringDTO;
     }
 
 
-    private Gathering convertToEntity(GatheringDTO gatheringDTO) throws ParseException {
+    private Gathering convertToEntity(GatheringReqDTO gatheringDTO) throws ParseException {
         Gathering gathering = modelMapper.map(gatheringDTO, Gathering.class);
         return gathering;
     }
