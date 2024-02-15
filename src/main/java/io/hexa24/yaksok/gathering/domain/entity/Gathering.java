@@ -18,7 +18,6 @@ public class Gathering {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-    
     private String name;
     private Point point; 
 }
