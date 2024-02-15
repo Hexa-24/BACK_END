@@ -1,6 +1,6 @@
 package io.hexa24.yaksok.gathering.service;
 
-import java.util.Optional;
+import java.net.URI;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
@@ -19,5 +19,11 @@ public class GathringService {
         public Gathering findGathering(UUID id) {
             return gatheringRepository.findById(id).orElseThrow(RuntimeException::new);
         }
+
+        public Gathering addGathering(Gathering gathering) {
+            return gatheringRepository.save(gathering);
+        }
+        
+        
 
 }
