@@ -1,5 +1,6 @@
 package io.hexa24.yaksok.gathering.controller;
 
+import java.text.ParseException;
 import java.util.UUID;
 
 import org.modelmapper.ModelMapper;
@@ -32,9 +33,17 @@ public class GatheringController {
         return gatheringDTO;
     }
     
+
+
     private GatheringDTO convertToDto(Gathering gathering) {
         GatheringDTO gatheringDTO = modelMapper.map(gathering, GatheringDTO.class);
         return gatheringDTO;
+    }
+
+
+    private Gathering convertToEntity(GatheringDTO gatheringDTO) throws ParseException {
+        Gathering gathering = modelMapper.map(gatheringDTO, Gathering.class);
+        return gathering;
     }
 
 }
