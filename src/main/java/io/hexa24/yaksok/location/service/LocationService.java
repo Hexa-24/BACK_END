@@ -1,5 +1,5 @@
 package io.hexa24.yaksok.location.service;
 
-public class LocationService {
-    
+public interface LocationService {
+
 }
