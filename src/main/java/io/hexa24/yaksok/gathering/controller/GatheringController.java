@@ -15,14 +15,17 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import io.hexa24.yaksok.gathering.domain.dto.GatheringReqDTO;
+import io.hexa24.yaksok.gathering.domain.dto.GatheringRespDTO;
 import io.hexa24.yaksok.gathering.domain.entity.Gathering;
 import io.hexa24.yaksok.gathering.service.GathringService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-
+@Slf4j
 @RestController
 @RequestMapping("gatherings")
 @RequiredArgsConstructor
@@ -34,15 +37,20 @@ public class GatheringController {
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public GatheringReqDTO getGathering(@PathVariable UUID id) {
+    public GatheringRespDTO getGathering(@PathVariable UUID id) {
         Gathering gathering = gatheringService.findGathering(id);
-        GatheringReqDTO gatheringDTO = convertToDto(gathering);
-        return gatheringDTO;
+        GatheringRespDTO gatheringRespDTO = convertToRespDto(gathering);
+        return gatheringRespDTO;
     }
 
     @PostMapping("")
-    public ResponseEntity<?> postGathering(@RequestBody @Valid GatheringReqDTO gatheringDTO, UriComponentsBuilder uriBuilder) throws ParseException {
-        Gathering gathering = convertToEntity(gatheringDTO);
+    public ResponseEntity postGathering(@RequestBody @Valid GatheringReqDTO gatheringReqDTO, UriComponentsBuilder uriBuilder) throws ParseException {
+        
+        Gathering gathering = Gathering.builder()
+                    .id(gatheringReqDTO.getId())
+                    .name(gatheringReqDTO.getName())
+                    .point(gatheringReqDTO.getPoint())
+                    .build();
 
         Gathering saved = gatheringService.addGathering(gathering);
 
@@ -50,15 +58,9 @@ public class GatheringController {
         return ResponseEntity.created(location).build();
     }
 
-    private GatheringReqDTO convertToDto(Gathering gathering) {
-        GatheringReqDTO gatheringDTO = modelMapper.map(gathering, GatheringReqDTO.class);
-        return gatheringDTO;
-    }
-
-
-    private Gathering convertToEntity(GatheringReqDTO gatheringDTO) throws ParseException {
-        Gathering gathering = modelMapper.map(gatheringDTO, Gathering.class);
-        return gathering;
+    private GatheringRespDTO convertToRespDto(Gathering gathering) {
+        GatheringRespDTO gatheringRespDTO = modelMapper.map(gathering, GatheringRespDTO.class);
+        return gatheringRespDTO;
     }
 
 }

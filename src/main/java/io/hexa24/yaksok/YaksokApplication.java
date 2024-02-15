@@ -16,8 +16,8 @@ public class YaksokApplication {
 
 
 	@Bean
-		public ModelMapper modelMapper() {
-    return new ModelMapper();
-}
+	public ModelMapper modelMapper() {
+    	return new ModelMapper();
+	}
 
 }
