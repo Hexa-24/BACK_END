@@ -32,9 +32,8 @@ public class MemberServiceImpl implements MemberService{
     }
 
     @Override
-    public void removeMember() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'removeMember'");
+    public void removeMember(Long id) {
+        memberRepository.deleteById(id);
     }
     
 }

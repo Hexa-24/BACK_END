@@ -74,4 +74,9 @@ public class MemberController {
         memberService.modifyMember(member);
     }
 
+    @DeleteMapping("/{id}")
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    public void deleteMember(@PathVariable Long id, @RequestBody MemberReqDTO memberReqDTO) {
+        memberService.removeMember(id);
+    }
 }
