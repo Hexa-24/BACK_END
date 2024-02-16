@@ -14,7 +14,7 @@ public class MemberServiceImpl implements MemberService{
 
     @Override
     public Member findMember(Long id) {
-                
+        return memberRepository.findById(id).orElseThrow(RuntimeException::new);
     }
 
     @Override
