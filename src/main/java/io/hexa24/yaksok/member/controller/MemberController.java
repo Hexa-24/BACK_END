@@ -4,6 +4,7 @@ import java.net.URI;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -48,7 +49,7 @@ public class MemberController {
     }
     
     @PostMapping("")
-    public ResponseEntity postMethodName(@RequestBody @Valid MemberReqDTO memberReqDTO, UriComponentsBuilder uriBuilder) {
+    public ResponseEntity postMember(@RequestBody @Valid MemberReqDTO memberReqDTO, UriComponentsBuilder uriBuilder) {
         Member member = Member.builder()
                                 .id(memberReqDTO.getId())
                                 .gathering_id(memberReqDTO.getGathering_id())
@@ -61,7 +62,7 @@ public class MemberController {
         return ResponseEntity.created(location).build();
     }
     
-    @PutMapping("{id}")
+    @PutMapping("/{id}")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void putMember(@PathVariable Long id, @RequestBody MemberReqDTO memberReqDTO) {
         Member member = Member.builder()
@@ -72,4 +73,5 @@ public class MemberController {
                                 .build();   
         memberService.modifyMember(member);
     }
+
 }
