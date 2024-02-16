@@ -20,6 +20,8 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PutMapping;
+
 
 
 
@@ -59,4 +61,15 @@ public class MemberController {
         return ResponseEntity.created(location).build();
     }
     
+    @PutMapping("{id}")
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    public void putMember(@PathVariable Long id, @RequestBody MemberReqDTO memberReqDTO) {
+        Member member = Member.builder()
+                                .id(memberReqDTO.getId())
+                                .gathering_id(memberReqDTO.getGathering_id())
+                                .name(memberReqDTO.getName())
+                                .colour(memberReqDTO.getColour())
+                                .build();   
+        memberService.modifyMember(member);
+    }
 }

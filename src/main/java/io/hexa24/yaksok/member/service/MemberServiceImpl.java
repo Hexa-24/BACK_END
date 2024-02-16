@@ -23,9 +23,12 @@ public class MemberServiceImpl implements MemberService{
     }
 
     @Override
-    public void modifyMember() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'modifyMember'");
+    public void modifyMember(Member member) {
+        if(memberRepository.findById(member.getId()) != null){
+            memberRepository.save(member);
+        }else{
+            throw new RuntimeException("해당되는 member 정보가 없어 수정 불가합니다.")
+        }
     }
 
     @Override
