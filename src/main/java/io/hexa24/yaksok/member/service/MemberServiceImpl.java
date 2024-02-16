@@ -18,9 +18,8 @@ public class MemberServiceImpl implements MemberService{
     }
 
     @Override
-    public void addMember() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'addMember'");
+    public Member addMember(Member member) {
+        return memberRepository.save(member);
     }
 
     @Override
