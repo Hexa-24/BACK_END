@@ -10,5 +10,7 @@ import org.springframework.data.repository.CrudRepository;
 
 @Repository
 public interface GatheringRepository extends CrudRepository<Gathering, UUID>{
+
+    
     
 }

@@ -24,6 +24,8 @@ import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PutMapping;
+
 
 @Slf4j
 @RestController
@@ -58,9 +60,24 @@ public class GatheringController {
         return ResponseEntity.created(location).build();
     }
 
+    @PutMapping("/{id}")
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    public void putGathering(@PathVariable UUID id, @RequestBody @Valid GatheringReqDTO gatheringReqDTO) {
+ 
+        Gathering gathering = Gathering.builder()
+                    .id(gatheringReqDTO.getId())
+                    .name(gatheringReqDTO.getName())
+                    .point(gatheringReqDTO.getPoint())
+                    .build();
+        
+        gatheringService.modifyGathering(gathering);
+        
+    }
+
     private GatheringRespDTO convertToRespDto(Gathering gathering) {
         GatheringRespDTO gatheringRespDTO = modelMapper.map(gathering, GatheringRespDTO.class);
         return gatheringRespDTO;
     }
+
 
 }

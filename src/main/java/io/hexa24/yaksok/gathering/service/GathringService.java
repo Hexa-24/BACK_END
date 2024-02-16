@@ -23,6 +23,16 @@ public class GathringService {
         public Gathering addGathering(Gathering gathering) {
             return gatheringRepository.save(gathering);
         }
+
+        public void modifyGathering(Gathering gathering) {
+
+            if(gatheringRepository.findById(gathering.getId()) != null){
+                gatheringRepository.save(gathering);
+            }else{
+                throw new RuntimeException("gathring의 ID가 틀렸습니다.")
+            }
+            
+        }
         
         
 
