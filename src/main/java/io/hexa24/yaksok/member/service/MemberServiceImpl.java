@@ -27,7 +27,7 @@ public class MemberServiceImpl implements MemberService{
         if(memberRepository.findById(member.getId()) != null){
             memberRepository.save(member);
         }else{
-            throw new RuntimeException("해당되는 member 정보가 없어 수정 불가합니다.")
+            throw new RuntimeException("해당되는 member 정보가 없어 수정 불가합니다.");
         }
     }
 

@@ -1,7 +1,6 @@
 package io.hexa24.yaksok.member.domain.dto;
 
-import java.util.UUID;
-
+import io.hexa24.yaksok.gathering.domain.entity.Gathering;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
@@ -11,7 +10,7 @@ import lombok.ToString;
 @ToString
 public class MemberRespDTO {
     private Long id;
-    private UUID gathering_id;
+    private Gathering gathering;
     private String name;
     private String colour;
 }
