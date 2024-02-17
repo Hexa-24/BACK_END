@@ -29,7 +29,7 @@ public class GathringServiceImpl implements GatheringService {
             if(gatheringRepository.findById(gathering.getId()) != null){
                 gatheringRepository.save(gathering);
             }else{
-                throw new RuntimeException("gathring의 ID가 틀렸습니다.")
+                throw new RuntimeException("gathring의 ID가 틀렸습니다.");
             }
         }
         @Override

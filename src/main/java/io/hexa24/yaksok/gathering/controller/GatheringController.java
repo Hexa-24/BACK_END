@@ -10,6 +10,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,13 +21,9 @@ import org.springframework.web.util.UriComponentsBuilder;
 import io.hexa24.yaksok.gathering.domain.dto.GatheringReqDTO;
 import io.hexa24.yaksok.gathering.domain.dto.GatheringRespDTO;
 import io.hexa24.yaksok.gathering.domain.entity.Gathering;
-import io.hexa24.yaksok.gathering.service.GathringService;
+import io.hexa24.yaksok.gathering.service.GathringServiceImpl;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.PutMapping;
 
 
 @RestController
@@ -32,7 +31,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 @RequiredArgsConstructor
 public class GatheringController {
 
-    private final GathringService gatheringService;
+    private final GathringServiceImpl gatheringService;
 
     private final ModelMapper modelMapper;
 
