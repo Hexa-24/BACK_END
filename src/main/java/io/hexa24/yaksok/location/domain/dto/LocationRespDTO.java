@@ -1,7 +1,9 @@
 package io.hexa24.yaksok.location.domain.dto;
 
-import java.util.UUID;
+import org.springframework.data.geo.Point;
 
+import io.hexa24.yaksok.gathering.domain.entity.Gathering;
+import io.hexa24.yaksok.member.domain.entity.Member;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
@@ -11,7 +13,8 @@ import lombok.ToString;
 @ToString
 public class LocationRespDTO {
     private Long id;
-    private UUID gathering_id;
+    private Gathering gathering;
+    private Member member;
     private String name;
-    private String colour;
+    private Point point;
 }
