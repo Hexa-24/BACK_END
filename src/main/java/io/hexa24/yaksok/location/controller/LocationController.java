@@ -5,9 +5,11 @@ import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -19,6 +21,7 @@ import io.hexa24.yaksok.location.domain.dto.LocationRespDTO;
 import io.hexa24.yaksok.location.domain.entity.Location;
 import io.hexa24.yaksok.location.service.LocationServiceImpl;
 import lombok.RequiredArgsConstructor;
+
 
 
 
@@ -57,5 +60,22 @@ public class LocationController {
                                     .buildAndExpand(gatheringId, memberId,saved.getId())
                                     .toUri();
         return ResponseEntity.created(urilocation).build();
+    }
+
+    @PutMapping("/{locationId}")
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    public void putLocation(@PathVariable Long locationId, @RequestBody LocationReqDTO locationReqDTO) {
+        Location location = Location.builder()
+                                    .id(locationId)
+                                    .name(locationReqDTO.getName())
+                                    .point(locationReqDTO.getPoint())
+                                    .build();        
+        locationService.modifyLocation(location);
+    }
+
+    @DeleteMapping("/{locationId}")
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    public void deleteLocation(@PathVariable Long locationId){
+        locationService.removeLocation(locationId);
     }
 }
