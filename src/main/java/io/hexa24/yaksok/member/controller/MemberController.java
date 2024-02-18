@@ -1,6 +1,7 @@
 package io.hexa24.yaksok.member.controller;
 
 import java.net.URI;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
@@ -31,6 +32,13 @@ public class MemberController {
     
     private final MemberServiceImpl memberService;
     
+    @GetMapping("")
+    @ResponseStatus(value = HttpStatus.OK)
+    public List<MemberRespDTO> getMembers(@PathVariable UUID gatheringId) {
+        List<Member> members = memberService.findAllMembers(gatheringId);
+        return MemberRespDTO.fromMembers(members);
+    }
+
     @GetMapping("/{memberId}")
     @ResponseStatus(value = HttpStatus.OK)
     public MemberRespDTO getMember(@PathVariable Long memberId) {
