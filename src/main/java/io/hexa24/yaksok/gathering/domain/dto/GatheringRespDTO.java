@@ -1,0 +1,47 @@
+package io.hexa24.yaksok.gathering.domain.dto;
+
+import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
+
+import org.springframework.data.geo.Point;
+
+import io.hexa24.yaksok.gathering.domain.entity.Gathering;
+import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
+@Getter
+@Setter
+@Builder
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
+public class GatheringRespDTO {
+    private UUID id;
+    @NotBlank
+    private String name;
+    private Point point;     
+
+
+    // Member를 MemberRespDTO로 변환하는 메서드
+    public static GatheringRespDTO fromGathering(Gathering gathering) {
+        GatheringRespDTO memberRespDTO = GatheringRespDTO.builder()
+                                                    .id(gathering.getId())
+                                                    .name(gathering.getName())
+                                                    .point(gathering.getPoint())
+                                                    .build();
+        return memberRespDTO;
+    }
+
+    // List<Member>를 List<MemberRespDTO>로 변환하는 메서드
+    public static List<GatheringRespDTO> fromGatherings(List<Gathering> members) {
+        return members.stream()
+                    .map(GatheringRespDTO::fromGathering)
+                    .collect(Collectors.toList());
+    }
+}

@@ -61,6 +61,14 @@
 		</dependency>
 		<!-- DataBase START -->
 
+		<!-- Swagger START -->
+		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+			<version>2.2.0</version>
+		</dependency>
+		<!-- Swagger END  -->
+
 		<!-- Test START -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -74,11 +82,6 @@
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<optional>true</optional>
-		</dependency>
-		<dependency>
-			<groupId>org.modelmapper</groupId>
-			<artifactId>modelmapper</artifactId>
-			<version>3.2.0</version>
 		</dependency>
 		<!-- etc. END -->
 
