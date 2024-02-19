@@ -4,12 +4,14 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import io.hexa24.yaksok.location.domain.entity.Location;
 import io.hexa24.yaksok.location.repository.LocationRepository;
 import lombok.RequiredArgsConstructor;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class LocationServiceImpl implements LocationService {
     
