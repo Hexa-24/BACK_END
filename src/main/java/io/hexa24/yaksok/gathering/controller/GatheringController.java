@@ -33,8 +33,6 @@ public class GatheringController {
 
     private final GathringServiceImpl gatheringService;
 
-    private final ModelMapper modelMapper;
-
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public GatheringRespDTO getGathering(@PathVariable UUID id) {
@@ -77,11 +75,5 @@ public class GatheringController {
     public void deleteGathering(@PathVariable UUID id){
         gatheringService.removeGathering(id);
     }
-
-    private GatheringRespDTO convertToRespDto(Gathering gathering) {
-        GatheringRespDTO gatheringRespDTO = modelMapper.map(gathering, GatheringRespDTO.class);
-        return gatheringRespDTO;
-    }
-
 
 }
