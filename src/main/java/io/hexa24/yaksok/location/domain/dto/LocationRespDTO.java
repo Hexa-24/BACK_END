@@ -1,8 +1,12 @@
 package io.hexa24.yaksok.location.domain.dto;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.data.geo.Point;
 
 import io.hexa24.yaksok.gathering.domain.entity.Gathering;
+import io.hexa24.yaksok.location.domain.entity.Location;
 import io.hexa24.yaksok.member.domain.entity.Member;
 import lombok.Builder;
 import lombok.Getter;
@@ -17,4 +21,23 @@ public class LocationRespDTO {
     private Member member;
     private String name;
     private Point point;
+
+    // Member를 MemberRespDTO로 변환하는 메서드
+    public static LocationRespDTO fromLocation(Location location) {
+        LocationRespDTO memberRespDTO = LocationRespDTO.builder()
+                                                    .id(location.getId())
+                                                    .gathering(location.getGathering())
+                                                    .member(location.getMember())
+                                                    .name(location.getName())
+                                                    .point(location.getPoint())
+                                                    .build();
+        return memberRespDTO;
+    }
+
+    // List<Member>를 List<MemberRespDTO>로 변환하는 메서드
+    public static List<LocationRespDTO> fromLocations(List<Location> members) {
+        return members.stream()
+                    .map(LocationRespDTO::fromLocation)
+                    .collect(Collectors.toList());
+    }
 }

@@ -1,5 +1,8 @@
 package io.hexa24.yaksok.location.service;
 
+import java.util.List;
+import java.util.UUID;
+
 import org.springframework.stereotype.Service;
 
 import io.hexa24.yaksok.location.domain.entity.Location;
@@ -12,6 +15,17 @@ public class LocationServiceImpl implements LocationService {
     
     private final LocationRepository locationRepository;
 
+    
+    @Override
+    public List<Location> findLocationsByGatheringId(UUID gatheringId) {
+        return locationRepository.findByGatheringId(gatheringId);
+    }
+
+    @Override
+    public List<Location> findLocationsByGatheringIdAndMemberId(UUID gatheringId, Long memberId) {
+        return locationRepository.findByGatheringIdAndMemberId(gatheringId, memberId);
+    }
+    
     @Override
     public Location findLocation(Long locationId) {
         return locationRepository.findById(locationId).orElseThrow(RuntimeException::new);
@@ -35,5 +49,7 @@ public class LocationServiceImpl implements LocationService {
     public void removeLocation(Long locationId) {
         locationRepository.deleteById(locationId);
     }
+
+   
 
 }

@@ -1,6 +1,7 @@
 package io.hexa24.yaksok.location.controller;
 
 import java.net.URI;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
@@ -22,32 +23,36 @@ import io.hexa24.yaksok.location.domain.entity.Location;
 import io.hexa24.yaksok.location.service.LocationServiceImpl;
 import lombok.RequiredArgsConstructor;
 
-
-
-
 @RestController
-@RequestMapping("gatherings/{gatheringId}/members/{memberId}/locations")
+@RequestMapping("gatherings/{gatheringId}/members")
 @RequiredArgsConstructor
 public class LocationController {
     
     private final LocationServiceImpl locationService;
     
-    @GetMapping("/{locationId}")
+    @GetMapping("/locations")
+    @ResponseStatus(value = HttpStatus.OK)
+    public List<LocationRespDTO> getLocations(@PathVariable UUID gatheringId) {
+        List<Location> location = locationService.findLocationsByGatheringId(gatheringId);
+        return LocationRespDTO.fromLocations(location);
+    }
+
+    @GetMapping("/{memberId}/locations")
+    @ResponseStatus(value = HttpStatus.OK)
+    public List<LocationRespDTO> getLocation(@PathVariable UUID gatheringId, @PathVariable Long memberId) {
+        List<Location> location = locationService.findLocationsByGatheringIdAndMemberId(gatheringId, memberId);
+        return LocationRespDTO.fromLocations(location);
+    }
+
+    @GetMapping("/{memberId}/locations/{locationId}")
     @ResponseStatus(value = HttpStatus.OK)
     public LocationRespDTO getLocation(@PathVariable Long locationId) {
         Location location = locationService.findLocation(locationId);
-        LocationRespDTO locationRespDTO = LocationRespDTO.builder()
-                                                            .id(location.getId())
-                                                            .gathering(location.getGathering())
-                                                            .member(location.getMember())
-                                                            .name(location.getName())
-                                                            .point(location.getPoint())
-                                                            .build();
-        return locationRespDTO;
+        return LocationRespDTO.fromLocation(location);
     }
     
     
-    @PostMapping("")
+    @PostMapping("/{memberId}/locations")
     public ResponseEntity postLocation(@PathVariable UUID gatheringId, @PathVariable Long memberId, @RequestBody LocationReqDTO locationReqDTO, UriComponentsBuilder uriBuilder) {
         Location location = Location.builder()
                                     .name(locationReqDTO.getName())
@@ -62,7 +67,7 @@ public class LocationController {
         return ResponseEntity.created(urilocation).build();
     }
 
-    @PutMapping("/{locationId}")
+    @PutMapping("/{memberId}/locations/{locationId}")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void putLocation(@PathVariable Long locationId, @RequestBody LocationReqDTO locationReqDTO) {
         Location location = Location.builder()
@@ -73,7 +78,7 @@ public class LocationController {
         locationService.modifyLocation(location);
     }
 
-    @DeleteMapping("/{locationId}")
+    @DeleteMapping("/{memberId}/locations/{locationId}")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void deleteLocation(@PathVariable Long locationId){
         locationService.removeLocation(locationId);
