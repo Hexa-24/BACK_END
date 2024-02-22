@@ -44,8 +44,11 @@ public class GatheringController {
     @ResponseStatus(HttpStatus.OK)
     public GatheringRespDTO getGathering(@PathVariable UUID gatheringId) {
         Gathering gathering = gatheringService.findGathering(gatheringId);
-        GatheringRespDTO gatheringRespDTO = convertToRespDto(gathering);
-        return gatheringRespDTO;
+        return GatheringRespDTO.builder()
+                        .id(gathering.getId())
+                        .name(gathering.getName())
+                        .point(gathering.getPoint())
+                        .build();
     }
     /**
      * 제공된 요청 DTO로 Gathering을 생성하는 POST 메서드 입니다.
