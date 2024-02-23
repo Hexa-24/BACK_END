@@ -1,6 +1,5 @@
 package io.hexa24.yaksok.gathering.service;
 
-import java.net.URI;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;

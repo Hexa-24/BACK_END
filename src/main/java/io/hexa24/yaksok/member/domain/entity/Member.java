@@ -1,10 +1,6 @@
 package io.hexa24.yaksok.member.domain.entity;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import io.hexa24.yaksok.gathering.domain.entity.Gathering;
-import io.hexa24.yaksok.member.domain.dto.MemberRespDTO;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
