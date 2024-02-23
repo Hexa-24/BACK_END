@@ -27,6 +27,6 @@ jobs:
 
     # - name: Build Docker Image
     #   run: |
-    #     docker build -t your-docker-image-name .
+    #     docker build -t yalsok-docker-image .
     #     docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-    #     docker push your-docker-image-name
+    #     docker push yaksok-dokcer-image
