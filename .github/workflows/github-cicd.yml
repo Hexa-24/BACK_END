@@ -31,4 +31,4 @@ jobs:
     - name: Build Docker Image
       run: |
         docker build -t 0.1 .
-        # docker push yoonshong/yaksok-docker-image:0.1
+        docker push yoonshong/yaksok-docker-image:0.1
