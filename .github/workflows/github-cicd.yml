@@ -1,0 +1,30 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches: [ "CI/CD_TEST" ]
+  pull_request:
+    branches: [ "CI/CD_TEST" ]
+
+jobs:
+  build:
+    name: Build Docker Image
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+      
+    - name: Set up JDK 17
+      uses: actions/setup-java@v2
+      with:
+        java-version: '17'
+
+    - name: Build with Maven
+      run: mvn -B clean package
+
+    # - name: Build Docker Image
+    #   run: |
+    #     docker build -t your-docker-image-name .
+    #     docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+    #     docker push your-docker-image-name
