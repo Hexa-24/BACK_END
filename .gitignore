@@ -63,3 +63,4 @@ buildNumber.properties
 .ionide
 
 .vscode/settings.json
+src/main/resources/application-local.yml
