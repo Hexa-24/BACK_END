@@ -47,7 +47,7 @@ public class GatheringController {
 
         // Entity(Gathering)를 DTO(GatheringReqDTO) 로 변환
         GatheringRespDTO gatheringRespDTO = gathering.toGatheringRespDTO();
-
+        
         // GatheringRespDTO를 200(OK)와 함께 반환
         return ResponseEntity.ok().body(gatheringRespDTO);
     }
