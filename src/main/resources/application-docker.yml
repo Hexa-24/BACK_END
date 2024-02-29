@@ -1,0 +1,12 @@
+# 데이터베이스 관련 설정
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://yaksok-postgres.cjkeimg4o1dm.ap-northeast-2.rds.amazonaws.com:5432/yaksok_db
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+
+# 로깅 레벨 설정
+logging:
+  level:
+    root: INFO
