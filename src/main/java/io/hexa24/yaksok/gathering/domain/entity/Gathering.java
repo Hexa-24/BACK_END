@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import org.springframework.data.geo.Point;
 
+import io.hexa24.yaksok.gathering.domain.dto.GatheringRespDTO;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -27,4 +28,12 @@ public class Gathering {
     private UUID id;
     private String name;
     private Point point; 
+
+    public GatheringRespDTO toGatheringRespDTO(){
+        return GatheringRespDTO.builder()
+                                .id(this.id)
+                                .name(this.name)
+                                .point(this.point)
+                                .build();
+    }
 }

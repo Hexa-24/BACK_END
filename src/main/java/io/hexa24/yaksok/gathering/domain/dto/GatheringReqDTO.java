@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import org.springframework.data.geo.Point;
 
+import io.hexa24.yaksok.gathering.domain.entity.Gathering;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -25,4 +26,13 @@ public class GatheringReqDTO {
     private String name;
     @NotNull
     private Point point;     
+
+
+    public Gathering toEntity(){
+        return Gathering.builder()
+                    .id(this.id)
+                    .name(this.name)
+                    .point(this.point)
+                    .build();
+    }
 }
