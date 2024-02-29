@@ -29,6 +29,10 @@ jobs:
       run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
 
     - name: Build Docker Image
+      env:
+        DB_USERNAME: ${{ secrets.db_username }}
+        DB_PASSWORD: ${{ secrets.db_password }}
       run: |
-        docker build -t yoonshong/yaksok-docker-image .
+        docker build -t yoonshong/yaksok-docker-image --build-arg DB_USERNAME=$DB_USERNAME --build-arg DB_PASSWORD=$DB_PASSWORD .
         docker push yoonshong/yaksok-docker-image
+      
