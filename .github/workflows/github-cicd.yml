@@ -7,7 +7,7 @@ on:
     branches: [ "develop" ]
 
 jobs:
-  build:
+  build-and-deploy:
     name: Build Docker Image
     runs-on: ubuntu-latest
 
@@ -20,14 +20,16 @@ jobs:
       with:
         java-version: '17'
         distribution: 'temurin'
-        
 
+    # Maven 빌드
     - name: Build with Maven
       run: mvn -B clean package
 
+    # dockerHub 로그인
     - name: Log in to Docker Hub
       run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
 
+    # 도커 이미지 생성
     - name: Build Docker Image
       env:
         DB_USERNAME: ${{ secrets.DB_USERNAME }}
@@ -36,3 +38,15 @@ jobs:
         docker build -t yoonshong/yaksok-docker-image --build-arg DB_USERNAME=$DB_USERNAME --build-arg DB_PASSWORD=$DB_PASSWORD .
         docker push yoonshong/yaksok-docker-image
       
+    # 서버에서 Docker 이미지 실행
+    - name: EC2 Docker Run
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.EC2_HOST }}
+        username: ubuntu
+        key: ${{ secrets.EC2_KEY }}
+        script: |
+          docker rm -f $(docker ps -qa)
+          docker rmi ${{ secrets.DOCKER_USERNAME }}/도커 레파지토리 이름
+          docker pull ${{ secrets.DOCKER_USERNAME }}/도커 레파지토리 이름
+          docker-compose up -d
