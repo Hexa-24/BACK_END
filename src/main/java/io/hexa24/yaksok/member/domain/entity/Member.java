@@ -1,17 +1,15 @@
 package io.hexa24.yaksok.member.domain.entity;
 
 import io.hexa24.yaksok.gathering.domain.entity.Gathering;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import io.hexa24.yaksok.location.domain.entity.Candidate;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+
+import java.util.List;
 
 @Entity
 @Getter
@@ -22,15 +20,27 @@ import lombok.ToString;
 public class Member {
     
     @Id
+    @Column(name = "member_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
     @ManyToOne
-    @JoinColumn(name="GATHERING_ID")
+    @JoinColumn(name="gathering_id")
     private Gathering gathering;
 
     private String name;
     
     private String colour;
 
+    @ManyToMany
+    @JoinTable(name = "vote",
+            joinColumns = @JoinColumn(name = "member_id"),
+            inverseJoinColumns = @JoinColumn(name = "candidate_id"))
+    private List<Candidate> voteCandidates;
+
+    @ManyToMany
+    @JoinTable(name = "memo",
+            joinColumns = @JoinColumn(name = "member_id"),
+            inverseJoinColumns = @JoinColumn(name = "candidate_id"))
+    private List<Candidate> memoCandidates;
 }
