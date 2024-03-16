@@ -4,9 +4,9 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import org.springframework.data.geo.Point;
 
 import io.hexa24.yaksok.gathering.domain.entity.Gathering;
+import io.hexa24.yaksok.location.domain.entity.Location;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,19 +21,21 @@ import lombok.ToString;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class GatheringRespDTO {
+public class GatheringRespDTO { 
+
     private UUID id;
+
     @NotBlank
     private String name;
-    private Point point;     
 
+    private Location venue;
 
     // Member를 MemberRespDTO로 변환하는 메서드
     public static GatheringRespDTO fromGathering(Gathering gathering) {
         GatheringRespDTO memberRespDTO = GatheringRespDTO.builder()
                                                     .id(gathering.getId())
                                                     .name(gathering.getName())
-                                                    .point(gathering.getPoint())
+                                                    .venue(gathering.getVenue())
                                                     .build();
         return memberRespDTO;
     }
@@ -43,5 +45,13 @@ public class GatheringRespDTO {
         return members.stream()
                     .map(GatheringRespDTO::fromGathering)
                     .collect(Collectors.toList());
+    }
+
+    public static GatheringRespDTO toRespDTO(Gathering gathering){
+        return GatheringRespDTO.builder()
+                .id(gathering.getId())
+                .name(gathering.getName())
+                .venue(gathering.getVenue())
+                .build();
     }
 }

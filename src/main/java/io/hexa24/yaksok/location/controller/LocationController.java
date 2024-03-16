@@ -29,7 +29,14 @@ import lombok.RequiredArgsConstructor;
 public class LocationController {
     
     private final LocationServiceImpl locationService;
-    
+
+    /**
+     * gatheringId로 Location을 조회하는 GET 메서드 입니다.
+     * @author HYS
+     * 
+     * @param gatheringId Gathering의 PK, Location의 FK
+     * @return 생성된 Gathering의 URI를 포함한 ResponseEntity
+     */    
     @GetMapping("/locations")
     @ResponseStatus(value = HttpStatus.OK)
     public List<LocationRespDTO> getLocations(@PathVariable UUID gatheringId) {
@@ -50,13 +57,12 @@ public class LocationController {
         Location location = locationService.findLocation(locationId);
         return LocationRespDTO.fromLocation(location);
     }
-    
-    
+         
     @PostMapping("/{memberId}/locations")
-    public ResponseEntity postLocation(@PathVariable UUID gatheringId, @PathVariable Long memberId, @RequestBody LocationReqDTO locationReqDTO, UriComponentsBuilder uriBuilder) {
+    public ResponseEntity<Void> postLocation(@PathVariable UUID gatheringId, @PathVariable Long memberId, @RequestBody LocationReqDTO locationReqDTO, UriComponentsBuilder uriBuilder) {
         Location location = Location.builder()
                                     .name(locationReqDTO.getName())
-                                    .point(locationReqDTO.getPoint())
+                                    .coordinate(locationReqDTO.getCoordinate())
                                     .build();
 
         Location saved = locationService.addLocation(location);
@@ -73,7 +79,7 @@ public class LocationController {
         Location location = Location.builder()
                                     .id(locationId)
                                     .name(locationReqDTO.getName())
-                                    .point(locationReqDTO.getPoint())
+                                    .coordinate(locationReqDTO.getCoordinate())
                                     .build();        
         locationService.modifyLocation(location);
     }

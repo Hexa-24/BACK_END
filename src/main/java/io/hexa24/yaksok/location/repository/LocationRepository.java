@@ -11,7 +11,4 @@ import io.hexa24.yaksok.location.domain.entity.Location;
 @Repository
 public interface LocationRepository extends CrudRepository<Location,Long> {
 
-    public List<Location> findByGatheringId(UUID gatheringId);
-    public List<Location> findByGatheringIdAndMemberId(UUID gatheringId, Long memberId);
-
 }

@@ -46,7 +46,7 @@ public class GatheringController {
         Gathering gathering = gatheringService.findGathering(gatheringId);
 
         // Entity(Gathering)를 DTO(GatheringReqDTO) 로 변환
-        GatheringRespDTO gatheringRespDTO = gathering.toGatheringRespDTO();
+        GatheringRespDTO gatheringRespDTO = GatheringRespDTO.toRespDTO(gathering);
         
         // GatheringRespDTO를 200(OK)와 함께 반환
         return ResponseEntity.ok().body(gatheringRespDTO);
@@ -58,7 +58,7 @@ public class GatheringController {
      * @param gatheringReqDTO Gathering 생성에 필요한 요청 DTO
      * @param uriBuilder URI를 동적으로 생성하기 위한 UriComponentsBuilder
      * @return 생성된 Gathering의 URI를 포함한 ResponseEntity
-     * @throws ParseException 파싱 예외가 발생할 경우
+     * @throws ParseException location 태그에 저장할 URL을 생성하는 중에 문제가 발생할 경우
      */
     @PostMapping("")
     public ResponseEntity<Void> postGathering(@RequestBody @Valid GatheringReqDTO gatheringReqDTO, UriComponentsBuilder uriBuilder) throws ParseException {

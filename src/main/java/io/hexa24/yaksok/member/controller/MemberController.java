@@ -53,7 +53,7 @@ public class MemberController {
     }
     
     @PostMapping("")
-    public ResponseEntity postMember(@PathVariable UUID gatheringId, @RequestBody @Valid MemberReqDTO memberReqDTO, UriComponentsBuilder uriBuilder) {
+    public ResponseEntity<Void> postMember(@PathVariable UUID gatheringId, @RequestBody @Valid MemberReqDTO memberReqDTO, UriComponentsBuilder uriBuilder) {
         Member member = Member.builder()
                                 .gathering(Gathering.builder().id(gatheringId).build())
                                 .name(memberReqDTO.getName())

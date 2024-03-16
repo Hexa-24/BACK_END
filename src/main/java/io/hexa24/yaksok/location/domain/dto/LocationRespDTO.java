@@ -17,7 +17,6 @@ import lombok.ToString;
 @ToString
 public class LocationRespDTO {
     private Long id;
-    private Gathering gathering;
     private Member member;
     private String name;
     private Point point;
@@ -26,10 +25,9 @@ public class LocationRespDTO {
     public static LocationRespDTO fromLocation(Location location) {
         LocationRespDTO memberRespDTO = LocationRespDTO.builder()
                                                     .id(location.getId())
-                                                    .gathering(location.getGathering())
                                                     .member(location.getMember())
                                                     .name(location.getName())
-                                                    .point(location.getPoint())
+                                                    .point(location.getCoordinate())
                                                     .build();
         return memberRespDTO;
     }

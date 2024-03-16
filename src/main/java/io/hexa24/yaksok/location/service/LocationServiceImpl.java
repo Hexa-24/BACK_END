@@ -20,12 +20,14 @@ public class LocationServiceImpl implements LocationService {
     
     @Override
     public List<Location> findLocationsByGatheringId(UUID gatheringId) {
-        return locationRepository.findByGatheringId(gatheringId);
+        //return locationRepository.findByGatheringId(gatheringId);
+        return null;
     }
 
     @Override
     public List<Location> findLocationsByGatheringIdAndMemberId(UUID gatheringId, Long memberId) {
-        return locationRepository.findByGatheringIdAndMemberId(gatheringId, memberId);
+        //return locationRepository.findByGatheringIdAndMemberId(gatheringId, memberId);
+        return null;
     }
     
     @Override

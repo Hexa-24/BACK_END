@@ -2,9 +2,8 @@ package io.hexa24.yaksok.gathering.domain.dto;
 
 import java.util.UUID;
 
-import org.springframework.data.geo.Point;
-
 import io.hexa24.yaksok.gathering.domain.entity.Gathering;
+import io.hexa24.yaksok.location.domain.entity.Location;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -21,18 +20,18 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 public class GatheringReqDTO {
+
     private UUID id;
     @NotBlank
     private String name;
     @NotNull
-    private Point point;     
-
+    private Location venus;
 
     public Gathering toEntity(){
         return Gathering.builder()
                     .id(this.id)
                     .name(this.name)
-                    .point(this.point)
+                    .venue(this.venus)
                     .build();
     }
 }

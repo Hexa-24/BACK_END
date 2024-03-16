@@ -3,6 +3,7 @@ package io.hexa24.yaksok.location.domain.dto;
 import org.springframework.data.geo.Point;
 
 import io.hexa24.yaksok.gathering.domain.entity.Gathering;
+import io.hexa24.yaksok.location.domain.value.Coordinate;
 import io.hexa24.yaksok.member.domain.entity.Member;
 import lombok.Builder;
 import lombok.Getter;
@@ -16,5 +17,5 @@ public class LocationReqDTO {
     private Gathering gathering;
     private Member member;
     private String name;
-    private Point point;
+    private Coordinate coordinate;
 }
