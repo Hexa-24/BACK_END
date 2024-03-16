@@ -24,7 +24,6 @@ public class GatheringReqDTO {
     private UUID id;
     @NotBlank
     private String name;
-    @NotNull
     private Location venus;
 
     public Gathering toEntity(){

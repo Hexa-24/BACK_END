@@ -46,6 +46,12 @@ public class Gathering {
 
     @Builder.Default
     @OneToMany(mappedBy = "gathering", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ToString.Exclude
     private List<Member> members = new ArrayList<>();
+
+    public void setMembers(List<Member> members) {
+        this.members = members;
+    }
+
 
 }

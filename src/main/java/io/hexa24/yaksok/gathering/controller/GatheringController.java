@@ -4,6 +4,7 @@ import java.net.URI;
 import java.text.ParseException;
 import java.util.UUID;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -20,7 +21,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import io.hexa24.yaksok.gathering.domain.dto.GatheringReqDTO;
 import io.hexa24.yaksok.gathering.domain.dto.GatheringRespDTO;
 import io.hexa24.yaksok.gathering.domain.entity.Gathering;
-import io.hexa24.yaksok.gathering.service.GathringServiceImpl;
+import io.hexa24.yaksok.gathering.service.GatheringServiceImpl;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
@@ -28,9 +29,10 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequestMapping("gatherings")
 @RequiredArgsConstructor
+@Slf4j
 public class GatheringController {
 
-    private final GathringServiceImpl gatheringService;
+    private final GatheringServiceImpl gatheringService;
 
     /**
      * 식별자(UUID)를 통해 Gathering을 조회하고 GatheringRespDTO형으로 반환하는 GET 메서드 입니다.
@@ -41,13 +43,8 @@ public class GatheringController {
      */
     @GetMapping("/{gatheringId}")
     public ResponseEntity<GatheringRespDTO> getGathering(@PathVariable UUID gatheringId) {
-        
         // 식별자(UUID) 값을 갖는 Gathering 조회
-        Gathering gathering = gatheringService.findGathering(gatheringId);
-
-        // Entity(Gathering)를 DTO(GatheringReqDTO) 로 변환
-        GatheringRespDTO gatheringRespDTO = GatheringRespDTO.toRespDTO(gathering);
-        
+        GatheringRespDTO gatheringRespDTO = gatheringService.findGathering(gatheringId);
         // GatheringRespDTO를 200(OK)와 함께 반환
         return ResponseEntity.ok().body(gatheringRespDTO);
     }
@@ -71,8 +68,9 @@ public class GatheringController {
 
         // 저장된 Entity의 EndPoint URI 생성
         final URI location = uriBuilder.path("/gatherings/{id}").buildAndExpand(saved.getId()).toUri();
-
+        log.debug(String.valueOf(location));
         // 생성된 URI를 location 헤더에 담아 201(Created) 상태로 반환
+
         return ResponseEntity.created(location).build();
     }
 
