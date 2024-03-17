@@ -32,7 +32,7 @@ class GatheringControllerTest {
     private GatheringRepository gatheringRepository;
 
     /**
-     * 모임을 생성하는 API를 테스트하는 코드입니다.
+     * 모임을 생성 API를 테스트 코드
      *
      * 모입 생성에 필요한 모임 정보 및 약속장소 정보를 JSON 타입으로 입력 받은 후
      * Created(201) 상태코드와 생성 된 Location Header 정보를 반환합니다.
