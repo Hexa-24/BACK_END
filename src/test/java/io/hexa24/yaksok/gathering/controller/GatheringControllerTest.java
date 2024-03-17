@@ -97,10 +97,4 @@ class GatheringControllerTest {
                 .andExpect(jsonPath("$.name").value(gathering.getName()));    //
     }
 
-    @Test
-    void deleteGathering() {
-    // GIVEN
-    // WHEN
-    // THEN
-    }
 }

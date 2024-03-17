@@ -28,11 +28,5 @@ public class GatheringServiceImpl implements GatheringService {
         public Gathering addGathering(Gathering gathering) {
             return gatheringRepository.save(gathering);
         }
-        @Override
-        public void removeGathering(UUID id) {
-            gatheringRepository.deleteById(id);
-        }
-        
-        
 
 }

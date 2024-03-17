@@ -59,10 +59,10 @@ public class GatheringController {
      */
     @PostMapping("")
     public ResponseEntity<Void> postGathering(@RequestBody @Valid GatheringReqDTO gatheringReqDTO, UriComponentsBuilder uriBuilder) throws ParseException {
-        
+
         // DTO(GatheringReqDTO)를 Entity(Gathering)로 변환
         Gathering gathering = gatheringReqDTO.toEntity();
-        
+
         // Entity(Gathering)를 DB에 추가
         Gathering saved = gatheringService.addGathering(gathering);
 
@@ -72,23 +72,6 @@ public class GatheringController {
         // 생성된 URI를 location 헤더에 담아 201(Created) 상태로 반환
 
         return ResponseEntity.created(location).build();
-    }
-
-    /**
-     * 식별자(UUID)를 통해 Gathering을 제거하는 DELETE 메서드 입니다.
-     * @author HYS
-     * 
-     * @param gatheringId
-     */
-    @DeleteMapping("/{gatheringId}")
-    @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    public ResponseEntity<Void> deleteGathering(@PathVariable UUID gatheringId){
-
-        // 식별자(UUID) 값을 갖는 Gathering 제거
-        gatheringService.removeGathering(gatheringId);
-        
-        // 성공적으로 삭제 시 204(noContent) 코드 반환
-        return ResponseEntity.noContent().build();
     }
 
 }
