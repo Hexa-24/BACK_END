@@ -1,29 +1,25 @@
 package io.hexa24.yaksok.gathering.controller;
 
+import com.google.gson.Gson;
 import io.hexa24.yaksok.YaksokApplication;
+import io.hexa24.yaksok.gathering.domain.dto.GatheringReqDTO;
 import io.hexa24.yaksok.gathering.domain.entity.Gathering;
 import io.hexa24.yaksok.gathering.repository.GatheringRepository;
-import io.hexa24.yaksok.gathering.service.GatheringService;
-import io.hexa24.yaksok.gathering.service.GatheringServiceImpl;
-import lombok.RequiredArgsConstructor;
+import io.hexa24.yaksok.location.domain.entity.Location;
+import io.hexa24.yaksok.location.domain.value.Address;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.UUID;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 @SpringBootTest(classes = YaksokApplication.class)
 @AutoConfigureMockMvc
 @Slf4j
@@ -35,36 +31,86 @@ class GatheringControllerTest {
     @Autowired
     private GatheringRepository gatheringRepository;
 
+    /**
+     * 모임을 생성하는 API를 테스트하는 코드입니다.
+     *
+     * 모입 생성에 필요한 모임 정보 및 약속장소 정보를 JSON 타입으로 입력 받은 후
+     * Created(201) 상태코드와 생성 된 Location Header 정보를 반환합니다.
+     *
+     * @throws Exception
+     */
     @Test
-    void getGathering() throws Exception {
-        Gathering gathering = Gathering.builder()
-                .name("Gathering-Test")
+    @Transactional
+    void postGathering() throws Exception {
+    // GIVEN
+        // Location (약속 장소) 생성
+        Location location = Location.builder()
+                                    .name("아라베스크")
+                                    .address(
+                                            Address.builder()
+                                                .zipCode("04349")
+                                                .address1("서울 용산구")
+                                                .address2("이태원로 227")
+                                                .build()
+                                            )
+                                    .build();
+        // GatheringReqDTO 생성
+        GatheringReqDTO gatheringReqDTO = GatheringReqDTO.builder()
+                .name("Hexa-24 점심 약속")
+                .venue(location)
                 .build();
-        Gathering saved = gatheringRepository.save(gathering);
 
-        log.debug(saved.toString());
-        mockMvc.perform(MockMvcRequestBuilders
-                        .get("/gatherings/"+saved.getId())
-                        ) // 특정 엔드포인트 호출
-                .andExpect(status().isOk()); // 응답 상태가 200인지 확인
+        // 모임 생성 정보 JSON으로 변환
+        Gson gson = new Gson();
+        String jsonPayload = gson.toJson(gatheringReqDTO);
+
+    // WHEN
+        // Mock으로 모임 정보를 생성하는 json 정보를 전달인
+        mockMvc.perform(
+                    MockMvcRequestBuilders
+                        .post("/gatherings")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonPayload)
+                        )
+
+    // THEN
+                //.andExpect(header().string("location",))    // location Header의 정보를 확인하고자 하는데 UUID를 DB에서 생성하여 대조할 방법이 없음
+                .andExpect(status().isCreated()); // 상태코드 Created(201) 확인
     }
 
     @Test
     @Transactional
-    void postGathering() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders
-                        .post("/gatherings")
-                        .contentType("application/json")
-                        .content("{\"name\":\"testName\"}")
-                ) // 특정 엔드포인트 호출
-                .andExpect(status().isCreated()); // 응답 상태가 201인지 확인
-    }
+    void getGathering() throws Exception {
+    // GIVEN
+        Gathering gathering = Gathering.builder()
+                                        .name("4/24 모임 약속")
+                                        .build();
+        Gathering saved = gatheringRepository.save(gathering);
 
+    // WHEN
+        mockMvc.perform(MockMvcRequestBuilders
+                            .get("/gatherings/"+saved.getId())
+                )
+    // THEN
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))           //
+                .andExpect(status().isOk())                                             // 응답 상태가 200인지 확인
+                .andExpect(jsonPath("$.name").value(gathering.getName()));    //
+    }
     @Test
     void putGathering() {
+    // GIVEN
+
+
+    // WHEN
+
+
+    // THEN
     }
 
     @Test
     void deleteGathering() {
+    // GIVEN
+    // WHEN
+    // THEN
     }
 }
