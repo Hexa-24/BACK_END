@@ -5,7 +5,6 @@ import java.util.UUID;
 import io.hexa24.yaksok.gathering.domain.entity.Gathering;
 import io.hexa24.yaksok.location.domain.entity.Location;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -24,13 +23,13 @@ public class GatheringReqDTO {
     private UUID id;
     @NotBlank
     private String name;
-    private Location venus;
+    private Location venue;
 
     public Gathering toEntity(){
         return Gathering.builder()
                     .id(this.id)
                     .name(this.name)
-                    .venue(this.venus)
+                    .venue(this.venue)
                     .build();
     }
 }
