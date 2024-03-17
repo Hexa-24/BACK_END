@@ -96,16 +96,6 @@ class GatheringControllerTest {
                 .andExpect(status().isOk())                                             // 응답 상태가 200인지 확인
                 .andExpect(jsonPath("$.name").value(gathering.getName()));    //
     }
-    @Test
-    void putGathering() {
-    // GIVEN
-
-
-    // WHEN
-
-
-    // THEN
-    }
 
     @Test
     void deleteGathering() {

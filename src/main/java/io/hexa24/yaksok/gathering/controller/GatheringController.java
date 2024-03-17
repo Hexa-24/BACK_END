@@ -75,27 +75,6 @@ public class GatheringController {
     }
 
     /**
-     * 제공된 요청 DTO로 Gathering을 수정하는 PUT 메서드 입니다.
-     * @author HYS
-     * 
-     * @param gatheringId RESTAPI의 명확성을 높이기 위한 변수. 비즈니스 로직에서는 사용되지 않음.
-     * @param gatheringReqDTO Gathering 수정에 필요한 요청 DTO. 식별자(UUID)도 포함
-     */
-    @PutMapping("/{gatheringId}")
-    @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    public ResponseEntity<Void> putGathering(@PathVariable UUID gatheringId, @RequestBody @Valid GatheringReqDTO gatheringReqDTO) {
-        
-        // DTO(GatheringReqDTO)를 Entity(Gathering)로 변환
-        Gathering gathering = gatheringReqDTO.toEntity();
-        
-        // Entity(Gathering)로 DB 정보 수정
-        gatheringService.modifyGathering(gathering);
-        
-        // 수정 완료 시 204(NoContent) 코드 반환
-        return ResponseEntity.noContent().build();
-    }
-
-    /**
      * 식별자(UUID)를 통해 Gathering을 제거하는 DELETE 메서드 입니다.
      * @author HYS
      * 

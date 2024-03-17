@@ -29,14 +29,6 @@ public class GatheringServiceImpl implements GatheringService {
             return gatheringRepository.save(gathering);
         }
         @Override
-        public void modifyGathering(Gathering gathering) {
-            if(gatheringRepository.findById(gathering.getId()) != null){
-                gatheringRepository.save(gathering);
-            }else{
-                throw new RuntimeException("gathring의 ID가 틀렸습니다.");
-            }
-        }
-        @Override
         public void removeGathering(UUID id) {
             gatheringRepository.deleteById(id);
         }

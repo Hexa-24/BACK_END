@@ -8,6 +8,5 @@ import io.hexa24.yaksok.gathering.domain.entity.Gathering;
 public interface GatheringService {
     GatheringRespDTO findGathering(UUID id);
     Gathering addGathering(Gathering gathering);
-    void modifyGathering(Gathering gathering);
     void removeGathering(UUID id);
 }
