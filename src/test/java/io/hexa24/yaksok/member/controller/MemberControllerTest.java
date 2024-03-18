@@ -6,6 +6,7 @@ import io.hexa24.yaksok.YaksokApplication;
 import io.hexa24.yaksok.gathering.domain.entity.Gathering;
 import io.hexa24.yaksok.gathering.repository.GatheringRepository;
 import io.hexa24.yaksok.member.domain.dto.MemberSaveReqDTO;
+import io.hexa24.yaksok.member.domain.entity.Member;
 import io.hexa24.yaksok.member.repository.MemberRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
@@ -18,7 +19,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest(classes = YaksokApplication.class)
 @AutoConfigureMockMvc
@@ -36,11 +37,58 @@ class MemberControllerTest {
     private GatheringRepository gatheringRepository;
 
     @Test
-    void getMembers() {
+    void getMembers_Test() throws Exception {
+        // GIVEN
+        Gathering gathering = Gathering.builder()
+                .name("4/24 모임 약속")
+                .build();
+        Gathering gatheringSaved = gatheringRepository.save(gathering);
+
+        Member member1 = Member.builder()
+                .gathering(gatheringSaved)
+                .name("맹구")
+                .build();
+        Member memberSaved1 = memberRepository.save(member1);
+
+        Member member2 = Member.builder()
+                .gathering(gatheringSaved)
+                .name("짱구")
+                .build();
+        Member memberSaved2 = memberRepository.save(member2);
+
+        // WHEN
+        mockMvc.perform(MockMvcRequestBuilders
+                        .get("/gatherings/"+gatheringSaved.getId()+"/members")
+                )
+        // THEN
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))           //
+                .andExpect(status().isOk())                                             // 응답 상태가 200인지 확인
+                .andExpect(jsonPath("$.[0].name").value(memberSaved1.getName()))   //
+                .andExpect(jsonPath("$.[1].name").value(memberSaved2.getName()));   //
     }
 
+
     @Test
-    void getMember() {
+    void getMember_Test() throws Exception {
+        // GIVEN
+        Gathering gathering = Gathering.builder()
+                .name("4/24 모임 약속")
+                .build();
+        Gathering gatheringSaved = gatheringRepository.save(gathering);
+
+        Member member = Member.builder()
+                .gathering(gatheringSaved)
+                .name("맹구")
+                .build();
+        Member memberSaved = memberRepository.save(member);
+        // WHEN
+        mockMvc.perform(MockMvcRequestBuilders
+                        .get("/gatherings/"+gatheringSaved.getId()+"/members/"+memberSaved.getId())
+                )
+                // THEN
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))           //
+                .andExpect(status().isOk())                                             // 응답 상태가 200인지 확인
+                .andExpect(jsonPath("$.name").value(memberSaved.getName()));   //
     }
 
     @Test

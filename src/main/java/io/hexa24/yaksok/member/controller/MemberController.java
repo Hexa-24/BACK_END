@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.UUID;
 
 import io.hexa24.yaksok.gathering.domain.dto.GatheringRespDTO;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -29,6 +30,7 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequestMapping("gatherings/{gatheringId}")
 @RequiredArgsConstructor
+@Slf4j
 public class MemberController {
     
     private final MemberServiceImpl memberService;
@@ -37,6 +39,7 @@ public class MemberController {
     @ResponseStatus(value = HttpStatus.OK)
     public List<MemberRespDTO> getMembers(@PathVariable UUID gatheringId) {
         List<Member> members = memberService.findAllMembers(gatheringId);
+        log.debug(members.toString());
         return MemberRespDTO.fromMembers(members);
     }
 
