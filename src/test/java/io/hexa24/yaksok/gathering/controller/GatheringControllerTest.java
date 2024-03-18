@@ -1,11 +1,13 @@
 package io.hexa24.yaksok.gathering.controller;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import io.hexa24.gson.LocalDateAdapter;
 import io.hexa24.yaksok.YaksokApplication;
-import io.hexa24.yaksok.gathering.domain.dto.GatheringReqDTO;
+import io.hexa24.yaksok.gathering.domain.dto.GatheringPostReqDTO;
 import io.hexa24.yaksok.gathering.domain.entity.Gathering;
 import io.hexa24.yaksok.gathering.repository.GatheringRepository;
-import io.hexa24.yaksok.location.domain.entity.Location;
+import io.hexa24.yaksok.location.domain.dto.VenueDTO;
 import io.hexa24.yaksok.location.domain.value.Address;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
@@ -14,9 +16,10 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDate;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -43,26 +46,29 @@ class GatheringControllerTest {
     @Transactional
     void postGathering() throws Exception {
     // GIVEN
-        // Location (약속 장소) 생성
-        Location location = Location.builder()
-                                    .name("아라베스크")
-                                    .address(
-                                            Address.builder()
+        // DTO 객체 생성
+        GatheringPostReqDTO gatheringPostReqDTO = GatheringPostReqDTO.builder()
+                .name("Hexa-24 점심 약속")
+                .date(LocalDate.of(2024, 3, 18))
+                .venue(
+                        VenueDTO.builder()
+                                .name("아라베스크")
+                                .address(
+                                        Address.builder()
                                                 .zipCode("04349")
                                                 .address1("서울 용산구")
                                                 .address2("이태원로 227")
                                                 .build()
-                                            )
-                                    .build();
-        // GatheringReqDTO 생성
-        GatheringReqDTO gatheringReqDTO = GatheringReqDTO.builder()
-                .name("Hexa-24 점심 약속")
-                .venue(location)
+                                )
+                                .build()
+                )
                 .build();
 
         // 모임 생성 정보 JSON으로 변환
-        Gson gson = new Gson();
-        String jsonPayload = gson.toJson(gatheringReqDTO);
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(LocalDate.class, new LocalDateAdapter())
+                .create();
+        String jsonPayload = gson.toJson(gatheringPostReqDTO);
 
     // WHEN
         // Mock으로 모임 정보를 생성하는 json 정보를 전달인
