@@ -45,8 +45,7 @@ class GatheringControllerTest {
     @Test
     @Transactional
     void postGathering() throws Exception {
-    // GIVEN
-        // DTO 객체 생성
+    // GIVEN: DTO 객체 생성
         GatheringPostReqDTO gatheringPostReqDTO = GatheringPostReqDTO.builder()
                 .name("Hexa-24 점심 약속")
                 .date(LocalDate.of(2024, 3, 18))
@@ -70,8 +69,7 @@ class GatheringControllerTest {
                 .create();
         String jsonPayload = gson.toJson(gatheringPostReqDTO);
 
-    // WHEN
-        // Mock으로 모임 정보를 생성하는 json 정보를 전달인
+    // WHEN: Mock으로 모임 정보를 생성하는 json 정보를 전달인
         mockMvc.perform(
                     MockMvcRequestBuilders
                         .post("/gatherings")
@@ -79,9 +77,9 @@ class GatheringControllerTest {
                         .content(jsonPayload)
                         )
 
-    // THEN
+    // THEN: Created(201) 상태코드 확인
                 //.andExpect(header().string("location",))    // location Header의 정보를 확인하고자 하는데 UUID를 DB에서 생성하여 대조할 방법이 없음
-                .andExpect(status().isCreated()); // 상태코드 Created(201) 확인
+                .andExpect(status().isCreated());
     }
 
     @Test
