@@ -21,13 +21,11 @@ public class MemberRespDTO {
 
     // Member를 MemberRespDTO로 변환하는 메서드
     public static MemberRespDTO fromMember(Member member) {
-        MemberRespDTO memberRespDTO = MemberRespDTO.builder()
+        return MemberRespDTO.builder()
                                                     .id(member.getId())
                                                     .gathering(member.getGathering())
                                                     .name(member.getName())
-                                                    .colour(member.getColour())
                                                     .build();
-        return memberRespDTO;
     }
 
     // List<Member>를 List<MemberRespDTO>로 변환하는 메서드

@@ -31,6 +31,7 @@ public class LocationController {
     private final LocationServiceImpl locationService;
 
     /**
+     *
      * gatheringId로 Location을 조회하는 GET 메서드 입니다.
      * @author HYS
      * 

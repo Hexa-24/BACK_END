@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.awt.*;
 import java.util.List;
 
 @Entity
@@ -29,8 +30,9 @@ public class Member {
     private Gathering gathering;
 
     private String name;
-    
-    private String colour;
+
+    @Enumerated(EnumType.STRING)
+    private Color color;
 
     @ManyToMany
     @JoinTable(name = "vote",
@@ -43,4 +45,5 @@ public class Member {
             joinColumns = @JoinColumn(name = "member_id"),
             inverseJoinColumns = @JoinColumn(name = "candidate_id"))
     private List<Candidate> memoCandidates;
+
 }
