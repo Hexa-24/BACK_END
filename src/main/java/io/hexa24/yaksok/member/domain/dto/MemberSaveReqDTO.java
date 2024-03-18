@@ -7,6 +7,6 @@ import lombok.ToString;
 @Getter
 @Builder
 @ToString
-public class MemberPostReqDTO {
+public class MemberSaveReqDTO {
     private String name;
 }

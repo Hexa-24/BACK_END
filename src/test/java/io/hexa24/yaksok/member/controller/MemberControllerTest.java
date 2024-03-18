@@ -2,12 +2,10 @@ package io.hexa24.yaksok.member.controller;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import io.hexa24.gson.LocalDateAdapter;
 import io.hexa24.yaksok.YaksokApplication;
 import io.hexa24.yaksok.gathering.domain.entity.Gathering;
 import io.hexa24.yaksok.gathering.repository.GatheringRepository;
-import io.hexa24.yaksok.member.domain.dto.MemberReqDTO;
-import io.hexa24.yaksok.member.domain.entity.Color;
+import io.hexa24.yaksok.member.domain.dto.MemberSaveReqDTO;
 import io.hexa24.yaksok.member.repository.MemberRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
@@ -20,10 +18,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.awt.*;
-import java.time.LocalDate;
-
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest(classes = YaksokApplication.class)
@@ -58,7 +52,7 @@ class MemberControllerTest {
         Gathering gathering = gatheringRepository.save(gatheringDTO);
     // WHEN
         // 모임 생성 정보 JSON으로 변환
-        MemberReqDTO member1 = MemberReqDTO.builder()
+        MemberSaveReqDTO member1 = MemberSaveReqDTO.builder()
                 .name("철수")
                 .build();
         Gson gson = new GsonBuilder().create();

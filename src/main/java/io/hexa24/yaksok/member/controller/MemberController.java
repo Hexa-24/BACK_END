@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import io.hexa24.yaksok.gathering.domain.entity.Gathering;
-import io.hexa24.yaksok.member.domain.dto.MemberReqDTO;
+import io.hexa24.yaksok.member.domain.dto.MemberSaveReqDTO;
 import io.hexa24.yaksok.member.domain.dto.MemberRespDTO;
 import io.hexa24.yaksok.member.domain.entity.Member;
 import io.hexa24.yaksok.member.service.MemberServiceImpl;
@@ -52,10 +52,10 @@ public class MemberController {
     }
     
     @PostMapping("/members")
-    public ResponseEntity<Void> postMember(@PathVariable UUID gatheringId, @RequestBody @Valid MemberReqDTO memberReqDTO, UriComponentsBuilder uriBuilder) {
+    public ResponseEntity<Void> postMember(@PathVariable UUID gatheringId, @RequestBody @Valid MemberSaveReqDTO memberSaveReqDTO, UriComponentsBuilder uriBuilder) {
         Member member = Member.builder()
                                 .gathering(Gathering.builder().id(gatheringId).build())
-                                .name(memberReqDTO.getName())
+                                .name(memberSaveReqDTO.getName())
                                 .build();
 
         Member saved = memberService.addMember(member);
@@ -65,12 +65,11 @@ public class MemberController {
     
     @PutMapping("/members/{memberId}")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    public void putMember(@PathVariable UUID gatheringId, @PathVariable Long memberId, @RequestBody MemberReqDTO memberReqDTO) {
+    public void putMember(@PathVariable UUID gatheringId, @PathVariable Long memberId, @RequestBody MemberSaveReqDTO memberSaveReqDTO) {
         Member member = Member.builder()
                                 .id(memberId)
-                                .name(memberReqDTO.getName())
-                                .color(memberReqDTO.getColor())
-                                .build();   
+                                .name(memberSaveReqDTO.getName())
+                                .build();
         memberService.modifyMember(member);
     }
 
