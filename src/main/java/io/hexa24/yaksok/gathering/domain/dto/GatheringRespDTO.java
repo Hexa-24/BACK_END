@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 
 import io.hexa24.yaksok.gathering.domain.entity.Gathering;
+import io.hexa24.yaksok.location.domain.dto.LocationRespDTO;
 import io.hexa24.yaksok.location.domain.entity.Location;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -28,16 +29,15 @@ public class GatheringRespDTO {
     @NotBlank
     private String name;
 
-    private Location venue;
+    private LocationRespDTO venue;
 
     // Member를 MemberRespDTO로 변환하는 메서드
     public static GatheringRespDTO fromGathering(Gathering gathering) {
-        GatheringRespDTO memberRespDTO = GatheringRespDTO.builder()
-                                                    .id(gathering.getId())
-                                                    .name(gathering.getName())
-                                                    .venue(gathering.getVenue())
-                                                    .build();
-        return memberRespDTO;
+        return GatheringRespDTO.builder()
+                                .id(gathering.getId())
+                                .name(gathering.getName())
+                                .venue(LocationRespDTO.fromLocation(gathering.getVenue()))
+                                .build();
     }
 
     // List<Member>를 List<MemberRespDTO>로 변환하는 메서드
@@ -51,7 +51,7 @@ public class GatheringRespDTO {
         return GatheringRespDTO.builder()
                 .id(gathering.getId())
                 .name(gathering.getName())
-                .venue(gathering.getVenue())
+                .venue(LocationRespDTO.fromLocation(gathering.getVenue()))
                 .build();
     }
 }

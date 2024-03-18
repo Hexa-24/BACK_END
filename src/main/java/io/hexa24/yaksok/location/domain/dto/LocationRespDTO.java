@@ -3,11 +3,9 @@ package io.hexa24.yaksok.location.domain.dto;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.data.geo.Point;
+import io.hexa24.yaksok.location.domain.value.Coordinate;
 
-import io.hexa24.yaksok.gathering.domain.entity.Gathering;
 import io.hexa24.yaksok.location.domain.entity.Location;
-import io.hexa24.yaksok.member.domain.entity.Member;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
@@ -17,16 +15,15 @@ import lombok.ToString;
 @ToString
 public class LocationRespDTO {
     private Long id;
-    private Member member;
     private String name;
-    private Point point;
+    private Coordinate coordinate;
 
     // Member를 MemberRespDTO로 변환하는 메서드
     public static LocationRespDTO fromLocation(Location location) {
         return LocationRespDTO.builder()
                                                     .id(location.getId())
                                                     .name(location.getName())
-                                                    .point(location.getCoordinate())
+                                                    .coordinate(location.getCoordinate())
                                                     .build();
     }
 

@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.List;
 import java.util.UUID;
 
+import io.hexa24.yaksok.gathering.domain.dto.GatheringRespDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -46,7 +47,6 @@ public class MemberController {
         
         return MemberRespDTO.builder()
                             .id(member.getId())
-                            .gathering(member.getGathering())
                             .name(member.getName())
                             .build();
     }
