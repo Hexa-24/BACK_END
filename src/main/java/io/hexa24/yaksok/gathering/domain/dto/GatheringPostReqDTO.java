@@ -1,10 +1,12 @@
 package io.hexa24.yaksok.gathering.domain.dto;
 
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.UUID;
 
 import io.hexa24.yaksok.gathering.domain.entity.Gathering;
+import io.hexa24.yaksok.location.domain.dto.VenueDTO;
 import io.hexa24.yaksok.location.domain.entity.Location;
-import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -18,18 +20,22 @@ import lombok.ToString;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class GatheringReqDTO {
+public class GatheringPostReqDTO {
 
-    private UUID id;
-    @NotBlank
     private String name;
-    private Location venue;
+    private LocalDate date;
+    private VenueDTO venue;
 
     public Gathering toEntity(){
         return Gathering.builder()
-                    .id(this.id)
                     .name(this.name)
-                    .venue(this.venue)
+                    .date(this.date)
+                    .venue(Location.builder()
+                            .name(venue.getName())
+                            .address(venue.getAddress())
+                            .coordinate(venue.getCoordinate())
+                            .build()
+                    )
                     .build();
     }
 }

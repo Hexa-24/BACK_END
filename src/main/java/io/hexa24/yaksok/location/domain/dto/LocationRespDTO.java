@@ -23,13 +23,11 @@ public class LocationRespDTO {
 
     // Member를 MemberRespDTO로 변환하는 메서드
     public static LocationRespDTO fromLocation(Location location) {
-        LocationRespDTO memberRespDTO = LocationRespDTO.builder()
+        return LocationRespDTO.builder()
                                                     .id(location.getId())
-                                                    .member(location.getMember())
                                                     .name(location.getName())
                                                     .point(location.getCoordinate())
                                                     .build();
-        return memberRespDTO;
     }
 
     // List<Member>를 List<MemberRespDTO>로 변환하는 메서드

@@ -5,20 +5,16 @@ import java.text.ParseException;
 import java.util.UUID;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import io.hexa24.yaksok.gathering.domain.dto.GatheringReqDTO;
+import io.hexa24.yaksok.gathering.domain.dto.GatheringPostReqDTO;
 import io.hexa24.yaksok.gathering.domain.dto.GatheringRespDTO;
 import io.hexa24.yaksok.gathering.domain.entity.Gathering;
 import io.hexa24.yaksok.gathering.service.GatheringServiceImpl;
@@ -52,16 +48,16 @@ public class GatheringController {
      * 제공된 요청 DTO로 Gathering을 생성하는 POST 메서드 입니다.
      * @author HYS
      * 
-     * @param gatheringReqDTO Gathering 생성에 필요한 요청 DTO
+     * @param gatheringPostReqDTO Gathering 생성에 필요한 요청 DTO
      * @param uriBuilder URI를 동적으로 생성하기 위한 UriComponentsBuilder
      * @return 생성된 Gathering의 URI를 포함한 ResponseEntity
      * @throws ParseException location 태그에 저장할 URL을 생성하는 중에 문제가 발생할 경우
      */
     @PostMapping("")
-    public ResponseEntity<Void> postGathering(@RequestBody @Valid GatheringReqDTO gatheringReqDTO, UriComponentsBuilder uriBuilder) throws ParseException {
+    public ResponseEntity<Void> postGathering(@RequestBody @Valid GatheringPostReqDTO gatheringPostReqDTO, UriComponentsBuilder uriBuilder) throws ParseException {
 
         // DTO(GatheringReqDTO)를 Entity(Gathering)로 변환
-        Gathering gathering = gatheringReqDTO.toEntity();
+        Gathering gathering = gatheringPostReqDTO.toEntity();
 
         // Entity(Gathering)를 DB에 추가
         Gathering saved = gatheringService.addGathering(gathering);

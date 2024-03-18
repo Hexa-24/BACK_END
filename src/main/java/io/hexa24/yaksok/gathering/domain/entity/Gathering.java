@@ -1,6 +1,7 @@
 package io.hexa24.yaksok.gathering.domain.entity;
 
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -36,7 +37,7 @@ public class Gathering {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    private Date date;
+    private LocalDate date;
 
     private String name;
 

@@ -26,10 +26,6 @@ public class Location {
     @Column(name = "location_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
-    @ManyToOne
-    @JoinColumn(name="member_id")
-    private Member member;
 
     @OneToMany(mappedBy = "location", fetch = FetchType.LAZY)
     private List<Candidate> candidates;
