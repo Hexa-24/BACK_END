@@ -40,7 +40,7 @@ public class LocationController {
      */    
     @GetMapping("/locations")
     @ResponseStatus(value = HttpStatus.OK)
-    public List<LocationRespDTO> getLocations(@PathVariable UUID gatheringId) {
+    public List<LocationRespDTO> getLocationList(@PathVariable UUID gatheringId) {
         List<Location> location = locationService.findLocationsByGatheringId(gatheringId);
         return LocationRespDTO.fromLocations(location);
     }

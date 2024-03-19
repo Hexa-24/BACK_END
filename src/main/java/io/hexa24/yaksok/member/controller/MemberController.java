@@ -4,7 +4,6 @@ import java.net.URI;
 import java.util.List;
 import java.util.UUID;
 
-import io.hexa24.yaksok.gathering.domain.dto.GatheringRespDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,7 +36,7 @@ public class MemberController {
     
     @GetMapping("/members")
     @ResponseStatus(value = HttpStatus.OK)
-    public List<MemberRespDTO> getMembers(@PathVariable UUID gatheringId) {
+    public List<MemberRespDTO> getMemberList(@PathVariable UUID gatheringId) {
         List<Member> members = memberService.findAllMembers(gatheringId);
         log.debug(members.toString());
         return MemberRespDTO.fromMembers(members);
