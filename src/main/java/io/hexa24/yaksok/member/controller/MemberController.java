@@ -19,11 +19,10 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import io.hexa24.yaksok.gathering.domain.entity.Gathering;
-import io.hexa24.yaksok.member.domain.dto.MemberSaveReqDTO;
+import io.hexa24.yaksok.member.domain.dto.MemberReqDTO;
 import io.hexa24.yaksok.member.domain.dto.MemberRespDTO;
 import io.hexa24.yaksok.member.domain.entity.Member;
 import io.hexa24.yaksok.member.service.MemberServiceImpl;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -54,12 +53,13 @@ public class MemberController {
     }
     
     @PostMapping("/members")
-    public ResponseEntity<Void> postMember(@PathVariable UUID gatheringId, @RequestBody @Valid MemberSaveReqDTO memberSaveReqDTO, UriComponentsBuilder uriBuilder) {
+    public ResponseEntity<Void> postMember(@PathVariable UUID gatheringId, @RequestBody MemberReqDTO memberReqDTO, UriComponentsBuilder uriBuilder) {
+        log.debug("@@@@@@@@@@@@@@@@ postMember");
         Member member = Member.builder()
                                 .gathering(Gathering.builder().id(gatheringId).build())
-                                .name(memberSaveReqDTO.getName())
+                                .name(memberReqDTO.getName())
                                 .build();
-
+        log.debug("@@@@@@@@@@@@@@@@ addMebeer");
         Member saved = memberService.addMember(member);
         final URI location = uriBuilder.path("gatherings/{gatheringId}/members/{member_id}").buildAndExpand(gatheringId,saved.getId()).toUri();
         return ResponseEntity.created(location).build();
@@ -67,10 +67,10 @@ public class MemberController {
     
     @PutMapping("/members/{memberId}")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    public void putMember(@PathVariable UUID gatheringId, @PathVariable Long memberId, @RequestBody MemberSaveReqDTO memberSaveReqDTO) {
+    public void putMember(@PathVariable UUID gatheringId, @PathVariable Long memberId, @RequestBody MemberReqDTO memberReqDTO) {
         Member member = Member.builder()
                                 .id(memberId)
-                                .name(memberSaveReqDTO.getName())
+                                .name(memberReqDTO.getName())
                                 .build();
         memberService.modifyMember(member);
     }
