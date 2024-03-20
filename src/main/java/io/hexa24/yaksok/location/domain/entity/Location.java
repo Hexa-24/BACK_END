@@ -1,20 +1,16 @@
 package io.hexa24.yaksok.location.domain.entity;
 
-import org.springframework.data.geo.Point;
-
-import io.hexa24.yaksok.gathering.domain.entity.Gathering;
-import io.hexa24.yaksok.member.domain.entity.Member;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import io.hexa24.yaksok.location.domain.value.Address;
+import io.hexa24.yaksok.location.domain.value.Coordinate;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Entity
@@ -25,18 +21,20 @@ import lombok.ToString;
 public class Location {
     
     @Id
+    @Column(name = "location_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name="GATHERING_ID")
-    private Gathering gathering;
-
-    @ManyToOne
-    @JoinColumn(name="MEMBER_ID")
-    private Member member;
+    @Builder.Default
+    @OneToMany(mappedBy = "location", fetch = FetchType.LAZY)
+    private List<Candidate> candidates = new ArrayList<>();
 
     private String name;
 
-    private Point point;
+    @Embedded
+    private Address address;
+
+    @Embedded
+    private Coordinate coordinate;
+
 }

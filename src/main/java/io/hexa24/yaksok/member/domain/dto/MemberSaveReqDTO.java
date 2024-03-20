@@ -7,8 +7,6 @@ import lombok.ToString;
 @Getter
 @Builder
 @ToString
-public class MemberReqDTO {
-    private Long id;
+public class MemberSaveReqDTO {
     private String name;
-    private String colour;
 }

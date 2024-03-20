@@ -1,19 +1,14 @@
 package io.hexa24.yaksok.gathering.domain.entity;
 
+import io.hexa24.yaksok.location.domain.entity.Location;
+import io.hexa24.yaksok.member.domain.entity.Member;
+import jakarta.persistence.*;
+import lombok.*;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
-
-import org.springframework.data.geo.Point;
-
-import io.hexa24.yaksok.gathering.domain.dto.GatheringRespDTO;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 @Entity
 @Getter
@@ -24,16 +19,26 @@ import lombok.ToString;
 public class Gathering {
     
     @Id
+    @Column(name = "gathering_id")
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-    private String name;
-    private Point point; 
 
-    public GatheringRespDTO toGatheringRespDTO(){
-        return GatheringRespDTO.builder()
-                                .id(this.id)
-                                .name(this.name)
-                                .point(this.point)
-                                .build();
+    private LocalDate date;
+
+    private String name;
+
+    @OneToOne(cascade = CascadeType.ALL)   // location 테이블과 단방향 맵핑
+    @JoinColumn(name = "location_id")
+    private Location venue;
+
+    @Builder.Default
+    @OneToMany(mappedBy = "gathering", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ToString.Exclude
+    private List<Member> members = new ArrayList<>();
+
+    public void setMembers(List<Member> members) {
+        this.members = members;
     }
+
+
 }
