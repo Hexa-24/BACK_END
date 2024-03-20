@@ -64,8 +64,9 @@ public class LocationController {
     public ResponseEntity<Void> postLocation(@PathVariable UUID gatheringId, @PathVariable Long memberId, @RequestBody LocationReqDTO locationReqDTO, UriComponentsBuilder uriBuilder) {
         Location saved = locationService.addLocation(gatheringId, memberId, locationReqDTO);
         URI urilocation = uriBuilder.path("gatherings/{gatheringId}/members/{memberId}/location/{locationId}")
-                                    .buildAndExpand(gatheringId, memberId,saved.getId())
+                                    .buildAndExpand(gatheringId, memberId, saved.getId())
                                     .toUri();
+        log.debug("urilocation: " + String.valueOf(urilocation));
         return ResponseEntity.created(urilocation).build();
     }
 

@@ -43,39 +43,39 @@ public class LocationServiceImpl implements LocationService {
 
     @Override
     public Location addLocation(UUID gatheringId, Long memberId, LocationReqDTO locationReqDTO) {
-        Optional<Location> location = locationRepository.findByNameAndAddressAndCoordinate(locationReqDTO.getName(), locationReqDTO.getAddress().toValue(), locationReqDTO.getCoordinate().toValue());
+        //LocationReqDTO 이용해 해당 정보를 갖고 있는 Location이 있는지 확인
+        Optional<Location> locationValid = locationRepository.findByNameAndAddressAndCoordinate(locationReqDTO.getName(), locationReqDTO.getAddress().toValue(), locationReqDTO.getCoordinate().toValue());
 
         Location result;
 
-        if(location.isPresent()){
+        if(locationValid.isPresent()){
+            log.debug("// 기존 저장된 Location 정보가 있을 경우");
             // 기존 저장된 Location 정보가 있을 경우
-            log.debug("@@@@@@@@@@@@@@@@@@@ IF");
             Candidate candidate = Candidate.builder()
-                    .gatheringId(gatheringId)
-                    .memberId(memberId)
-                    .location(location.get())
-                    .build();
-
-            Candidate save = candidateRepository.save(candidate);
-            result =  save.getLocation();
+                                            .gatheringId(gatheringId)
+                                            .memberId(memberId)
+                                            .location(locationValid.get())
+                                            .build();
+            Candidate candidateSaved = candidateRepository.save(candidate);
+            result =  candidateSaved.getLocation();
         }else{
+            log.debug(" // 기존 저장된 Location 정보가 없을 경우");
             // 기존 저장된 Location 정보가 없을 경우
-            log.debug("@@@@@@@@@@@@@@@@@@@ ELSE");
+            Location location = Location.builder()
+                    .name(locationReqDTO.getName())
+                    .address(locationReqDTO.getAddress().toValue())
+                    .coordinate(locationReqDTO.getCoordinate().toValue())
+                    .build();
+            Location locationSaved = locationRepository.save(location);
 
             Candidate candidate = Candidate.builder()
                                         .gatheringId(gatheringId)
+                                        .location(locationSaved)
                                         .memberId(memberId)
                                         .build();
             Candidate candidateSaved = candidateRepository.save(candidate);
 
-            Location location1 = Location.builder()
-                                        .name(locationReqDTO.getName())
-                                        .address(locationReqDTO.getAddress().toValue())
-                                        .coordinate(locationReqDTO.getCoordinate().toValue())
-                                        .build();
-            location1.getCandidates().add(candidateSaved);
-
-            result = locationRepository.save(location1);
+            result = locationSaved;
         }
         return result;
     }
