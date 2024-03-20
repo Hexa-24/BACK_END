@@ -16,15 +16,17 @@ import lombok.ToString;
 public class CandidateRespDTO {
     private Long id;
     private String name;
-    private Coordinate coordinate;
+    private AddressDTO address;
+    private CoordinateDTO coordinate;
 
     // Member를 MemberRespDTO로 변환하는 메서드
     public static CandidateRespDTO fromLocation(Location location) {
         return CandidateRespDTO.builder()
-                                                    .id(location.getId())
-                                                    .name(location.getName())
-                                                    .coordinate(location.getCoordinate())
-                                                    .build();
+                    .id(location.getId())
+                    .name(location.getName())
+                    .address(location.getAddress().toDTO())
+                    .coordinate(location.getCoordinate().toValue())
+                    .build();
     }
 
     // List<Member>를 List<MemberRespDTO>로 변환하는 메서드

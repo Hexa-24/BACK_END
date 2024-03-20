@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 
 import io.hexa24.yaksok.gathering.domain.entity.Gathering;
+import io.hexa24.yaksok.location.domain.dto.AddressDTO;
 import io.hexa24.yaksok.location.domain.dto.CandidateRespDTO;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;

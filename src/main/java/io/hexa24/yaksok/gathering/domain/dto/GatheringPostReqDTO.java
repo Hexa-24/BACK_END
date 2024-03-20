@@ -30,8 +30,8 @@ public class GatheringPostReqDTO {
                     .date(this.date)
                     .venue(Location.builder()
                             .name(venue.getName())
-                            .address(venue.getAddress())
-                            .coordinate(venue.getCoordinate())
+                            .address(venue.getAddress().toValue())
+                            .coordinate(venue.getCoordinate().toValue())
                             .build()
                     )
                     .build();

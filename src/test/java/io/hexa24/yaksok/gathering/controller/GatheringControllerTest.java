@@ -7,6 +7,7 @@ import io.hexa24.yaksok.YaksokApplication;
 import io.hexa24.yaksok.gathering.domain.dto.GatheringPostReqDTO;
 import io.hexa24.yaksok.gathering.domain.entity.Gathering;
 import io.hexa24.yaksok.gathering.repository.GatheringRepository;
+import io.hexa24.yaksok.location.domain.dto.AddressDTO;
 import io.hexa24.yaksok.location.domain.dto.VenueDTO;
 import io.hexa24.yaksok.location.domain.entity.Location;
 import io.hexa24.yaksok.location.domain.value.Address;
@@ -56,7 +57,7 @@ class GatheringControllerTest {
                         VenueDTO.builder()
                                 .name("아라베스크")
                                 .address(
-                                        Address.builder()
+                                        AddressDTO.builder()
                                                 .zipcode("04349")
                                                 .address1("서울 용산구")
                                                 .address2("이태원로 227")

@@ -1,5 +1,6 @@
 package io.hexa24.yaksok.location.domain.value;
 
+import io.hexa24.yaksok.location.domain.dto.CoordinateDTO;
 import jakarta.persistence.Embeddable;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -17,4 +18,7 @@ public class Coordinate {
         this.y = y;
     }
 
+    public CoordinateDTO toValue() {
+        return new CoordinateDTO(this.x,this.y);
+    }
 }

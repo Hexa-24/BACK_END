@@ -12,7 +12,7 @@ import lombok.ToString;
 public class VenueDTO {
 
     private String name;
-    private Address address;
-    private Coordinate coordinate;
+    private AddressDTO address;
+    private CoordinateDTO coordinate;
     
 }

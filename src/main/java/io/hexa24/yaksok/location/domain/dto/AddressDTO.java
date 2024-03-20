@@ -4,6 +4,7 @@ import io.hexa24.yaksok.location.domain.value.Address;
 import lombok.*;
 
 @Builder
+@Getter
 @Setter
 @ToString
 @NoArgsConstructor
