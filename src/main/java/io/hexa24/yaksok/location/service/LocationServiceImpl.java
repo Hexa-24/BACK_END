@@ -82,7 +82,7 @@ public class LocationServiceImpl implements LocationService {
 
     @Override
     public void modifyLocation(Location location) {
-        if(locationRepository.findById(location.getId()) != null){
+        if(locationRepository.findById(location.getId()).isPresent()){
             locationRepository.save(location);
         }else{
             throw new RuntimeException("location의 ID가 틀렸습니다.");
