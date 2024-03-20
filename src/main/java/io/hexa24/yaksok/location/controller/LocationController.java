@@ -66,7 +66,7 @@ public class LocationController {
         URI urilocation = uriBuilder.path("gatherings/{gatheringId}/members/{memberId}/location/{locationId}")
                                     .buildAndExpand(gatheringId, memberId, saved.getId())
                                     .toUri();
-        log.debug("urilocation: " + String.valueOf(urilocation));
+        log.debug("urilocation: " + urilocation);
         return ResponseEntity.created(urilocation).build();
     }
 

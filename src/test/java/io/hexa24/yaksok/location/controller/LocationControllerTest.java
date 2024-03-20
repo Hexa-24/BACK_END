@@ -15,8 +15,6 @@ import io.hexa24.yaksok.location.repository.LocationRepository;
 import io.hexa24.yaksok.member.domain.entity.Member;
 import io.hexa24.yaksok.member.repository.MemberRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.aspectj.lang.annotation.Before;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;

@@ -1,11 +1,9 @@
 package io.hexa24.yaksok.location.domain.dto;
 
 import io.hexa24.yaksok.location.domain.value.Coordinate;
-import jakarta.persistence.Embeddable;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.springframework.data.geo.Point;
 
 @Getter
 @Setter

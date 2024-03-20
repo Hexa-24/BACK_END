@@ -6,7 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 import java.util.List;
 import java.util.UUID;
@@ -14,7 +13,6 @@ import java.util.UUID;
 @Getter
 @Entity
 @Builder
-@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 public class Candidate {
@@ -36,4 +34,13 @@ public class Candidate {
 
     @ManyToMany(mappedBy = "memoCandidates")
     private List<Member> memoMembers;
+
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + "(" +
+                "id = " + id + ", " +
+                "memberId = " + memberId + ", " +
+                "gatheringId = " + gatheringId + ", " +
+                "location = " + location + ")";
+    }
 }

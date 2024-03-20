@@ -1,8 +1,8 @@
 package io.hexa24.yaksok.location.domain.value;
 
 import jakarta.persistence.Embeddable;
-import lombok.*;
-import org.springframework.data.geo.Point;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Embeddable
 @ToString
