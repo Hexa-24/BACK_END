@@ -8,7 +8,9 @@ import io.hexa24.yaksok.gathering.domain.dto.GatheringPostReqDTO;
 import io.hexa24.yaksok.gathering.domain.entity.Gathering;
 import io.hexa24.yaksok.gathering.repository.GatheringRepository;
 import io.hexa24.yaksok.location.domain.dto.VenueDTO;
+import io.hexa24.yaksok.location.domain.entity.Location;
 import io.hexa24.yaksok.location.domain.value.Address;
+import io.hexa24.yaksok.location.domain.value.Coordinate;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -88,6 +90,17 @@ class GatheringControllerTest {
     // GIVEN
         Gathering gathering = Gathering.builder()
                                         .name("4/24 모임 약속")
+                                        .venue(
+                                                Location.builder()
+                                                        .name("신당역")
+                                                        .address(Address.builder()
+                                                                .address1("서울 중구")
+                                                                .address2("퇴계로 431-1")
+                                                                .build()
+                                                        )
+                                                        .coordinate(new Coordinate(21,50))
+                                                        .build()
+                                        )
                                         .build();
         Gathering saved = gatheringRepository.save(gathering);
 
