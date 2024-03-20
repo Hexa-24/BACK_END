@@ -5,7 +5,10 @@ import com.google.gson.GsonBuilder;
 import io.hexa24.yaksok.YaksokApplication;
 import io.hexa24.yaksok.gathering.domain.entity.Gathering;
 import io.hexa24.yaksok.gathering.repository.GatheringRepository;
-import io.hexa24.yaksok.member.domain.dto.MemberSaveReqDTO;
+import io.hexa24.yaksok.location.domain.entity.Location;
+import io.hexa24.yaksok.location.domain.value.Address;
+import io.hexa24.yaksok.location.domain.value.Coordinate;
+import io.hexa24.yaksok.member.domain.dto.MemberReqDTO;
 import io.hexa24.yaksok.member.domain.entity.Member;
 import io.hexa24.yaksok.member.repository.MemberRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -14,7 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,7 +26,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = YaksokApplication.class)
 @AutoConfigureMockMvc
 @Transactional
-@Rollback
 @Slf4j
 class MemberControllerTest {
 
@@ -73,6 +74,17 @@ class MemberControllerTest {
         // GIVEN
         Gathering gathering = Gathering.builder()
                 .name("4/24 모임 약속")
+                .venue(
+                        Location.builder()
+                                .name("신당역")
+                                .address(Address.builder()
+                                        .address1("서울 중구")
+                                        .address2("퇴계로 431-1")
+                                        .build()
+                                )
+                                .coordinate(new Coordinate(21,50))
+                                .build()
+                )
                 .build();
         Gathering gatheringSaved = gatheringRepository.save(gathering);
 
@@ -94,14 +106,26 @@ class MemberControllerTest {
     @Test
     void postMember_Test() throws Exception {
     //GIVEN
-        Gathering gatheringDTO = Gathering.builder()
+        Gathering gathering = Gathering.builder()
                 .name("4/24 모임 약속")
+                .venue(
+                        Location.builder()
+                                .name("신당역")
+                                .address(Address.builder()
+                                        .address1("서울 중구")
+                                        .address2("퇴계로 431-1")
+                                        .build()
+                                )
+                                .coordinate(new Coordinate(21,50))
+                                .build()
+                )
                 .build();
-        Gathering gathering = gatheringRepository.save(gatheringDTO);
-    // WHEN
+        Gathering gatheringSaved = gatheringRepository.save(gathering);
+
+        // WHEN
         // 모임 생성 정보 JSON으로 변환
-        MemberSaveReqDTO member1 = MemberSaveReqDTO.builder()
-                .name("철수")
+        MemberReqDTO member1 = MemberReqDTO.builder()
+                .name("맹구")
                 .build();
         Gson gson = new GsonBuilder().create();
         String jsonPayload = gson.toJson(member1);
@@ -109,7 +133,7 @@ class MemberControllerTest {
         // mockMvc
         mockMvc.perform(
             MockMvcRequestBuilders
-                    .post("/gatherings/{gatheringId}/members",gathering.getId())
+                    .post("/gatherings/{gatheringId}/members",gatheringSaved.getId())
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(jsonPayload)
         )
