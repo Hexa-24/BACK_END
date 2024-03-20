@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.List;
 import java.util.UUID;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -18,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import io.hexa24.yaksok.location.domain.dto.LocationReqDTO;
-import io.hexa24.yaksok.location.domain.dto.LocationRespDTO;
+import io.hexa24.yaksok.location.domain.dto.CandidateRespDTO;
 import io.hexa24.yaksok.location.domain.entity.Location;
 import io.hexa24.yaksok.location.service.LocationServiceImpl;
 import lombok.RequiredArgsConstructor;
@@ -26,12 +27,12 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequestMapping("gatherings/{gatheringId}/members")
 @RequiredArgsConstructor
+@Slf4j
 public class LocationController {
     
     private final LocationServiceImpl locationService;
 
     /**
-     *
      * gatheringId로 Location을 조회하는 GET 메서드 입니다.
      * @author HYS
      * 
@@ -40,34 +41,28 @@ public class LocationController {
      */    
     @GetMapping("/locations")
     @ResponseStatus(value = HttpStatus.OK)
-    public List<LocationRespDTO> getLocationList(@PathVariable UUID gatheringId) {
+    public List<CandidateRespDTO> getLocationList(@PathVariable UUID gatheringId) {
         List<Location> location = locationService.findLocationsByGatheringId(gatheringId);
-        return LocationRespDTO.fromLocations(location);
+        return CandidateRespDTO.fromLocations(location);
     }
 
     @GetMapping("/{memberId}/locations")
     @ResponseStatus(value = HttpStatus.OK)
-    public List<LocationRespDTO> getLocation(@PathVariable UUID gatheringId, @PathVariable Long memberId) {
+    public List<CandidateRespDTO> getLocation(@PathVariable UUID gatheringId, @PathVariable Long memberId) {
         List<Location> location = locationService.findLocationsByGatheringIdAndMemberId(gatheringId, memberId);
-        return LocationRespDTO.fromLocations(location);
+        return CandidateRespDTO.fromLocations(location);
     }
 
     @GetMapping("/{memberId}/locations/{locationId}")
     @ResponseStatus(value = HttpStatus.OK)
-    public LocationRespDTO getLocation(@PathVariable Long locationId) {
+    public CandidateRespDTO getLocation(@PathVariable Long locationId) {
         Location location = locationService.findLocation(locationId);
-        return LocationRespDTO.fromLocation(location);
+        return CandidateRespDTO.fromLocation(location);
     }
          
     @PostMapping("/{memberId}/locations")
     public ResponseEntity<Void> postLocation(@PathVariable UUID gatheringId, @PathVariable Long memberId, @RequestBody LocationReqDTO locationReqDTO, UriComponentsBuilder uriBuilder) {
-        Location location = Location.builder()
-                                    .name(locationReqDTO.getName())
-                                    .coordinate(locationReqDTO.getCoordinate())
-                                    .build();
-
-        Location saved = locationService.addLocation(location);
-        
+        Location saved = locationService.addLocation(gatheringId, memberId, locationReqDTO);
         URI urilocation = uriBuilder.path("gatherings/{gatheringId}/members/{memberId}/location/{locationId}")
                                     .buildAndExpand(gatheringId, memberId,saved.getId())
                                     .toUri();
@@ -80,7 +75,7 @@ public class LocationController {
         Location location = Location.builder()
                                     .id(locationId)
                                     .name(locationReqDTO.getName())
-                                    .coordinate(locationReqDTO.getCoordinate())
+                                    .coordinate(locationReqDTO.getCoordinate().toValue())
                                     .build();        
         locationService.modifyLocation(location);
     }

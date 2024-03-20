@@ -4,14 +4,16 @@ import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Embeddable
 @Builder
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 public class Address {
 
-    String zipCode;
+    String zipcode;
     String address1;
     String address2;
 

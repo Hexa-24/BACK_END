@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.util.List;
+import java.util.UUID;
 
 @Getter
 @Entity
@@ -25,7 +26,7 @@ public class Candidate {
 
     private Long memberId;
 
-    private Long gatheringId;
+    private UUID gatheringId;
 
     @ManyToOne
     private Location location;

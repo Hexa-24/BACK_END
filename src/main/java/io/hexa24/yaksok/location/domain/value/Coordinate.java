@@ -1,20 +1,20 @@
 package io.hexa24.yaksok.location.domain.value;
 
 import jakarta.persistence.Embeddable;
+import lombok.*;
 import org.springframework.data.geo.Point;
 
 @Embeddable
-public class Coordinate extends Point {
+@ToString
+@NoArgsConstructor
+public class Coordinate {
 
-    public Coordinate() {
-        super(0, 0);
-    }
+    private double x;
+    private double y;
+
     public Coordinate(double x, double y) {
-        super(x, y);
-    }
-
-    public Coordinate(Point point) {
-        super(point);
+        this.x = x;
+        this.y = y;
     }
 
 }

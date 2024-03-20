@@ -1,8 +1,6 @@
 package io.hexa24.yaksok.gathering.domain.dto;
 
-import java.sql.Date;
 import java.time.LocalDate;
-import java.util.UUID;
 
 import io.hexa24.yaksok.gathering.domain.entity.Gathering;
 import io.hexa24.yaksok.location.domain.dto.VenueDTO;

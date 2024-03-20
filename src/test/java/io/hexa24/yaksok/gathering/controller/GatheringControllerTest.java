@@ -56,7 +56,7 @@ class GatheringControllerTest {
                                 .name("아라베스크")
                                 .address(
                                         Address.builder()
-                                                .zipCode("04349")
+                                                .zipcode("04349")
                                                 .address1("서울 용산구")
                                                 .address2("이태원로 227")
                                                 .build()

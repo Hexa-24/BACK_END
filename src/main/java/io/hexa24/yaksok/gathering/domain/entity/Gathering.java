@@ -41,7 +41,7 @@ public class Gathering {
 
     private String name;
 
-    @OneToOne   // location 테이블과 단방향 맵핑
+    @OneToOne(cascade = CascadeType.ALL)   // location 테이블과 단방향 맵핑
     @JoinColumn(name = "location_id")
     private Location venue;
 

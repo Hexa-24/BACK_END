@@ -13,14 +13,14 @@ import lombok.ToString;
 @Getter
 @Builder
 @ToString
-public class LocationRespDTO {
+public class CandidateRespDTO {
     private Long id;
     private String name;
     private Coordinate coordinate;
 
     // Member를 MemberRespDTO로 변환하는 메서드
-    public static LocationRespDTO fromLocation(Location location) {
-        return LocationRespDTO.builder()
+    public static CandidateRespDTO fromLocation(Location location) {
+        return CandidateRespDTO.builder()
                                                     .id(location.getId())
                                                     .name(location.getName())
                                                     .coordinate(location.getCoordinate())
@@ -28,9 +28,9 @@ public class LocationRespDTO {
     }
 
     // List<Member>를 List<MemberRespDTO>로 변환하는 메서드
-    public static List<LocationRespDTO> fromLocations(List<Location> members) {
+    public static List<CandidateRespDTO> fromLocations(List<Location> members) {
         return members.stream()
-                    .map(LocationRespDTO::fromLocation)
+                    .map(CandidateRespDTO::fromLocation)
                     .collect(Collectors.toList());
     }
 }
