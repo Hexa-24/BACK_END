@@ -7,7 +7,7 @@ on:
     branches: [ "develop" ]
 
 jobs:
-  build:
+  build-and-deploy:
     name: Build Docker Image
     runs-on: ubuntu-latest
 
@@ -20,19 +20,42 @@ jobs:
       with:
         java-version: '17'
         distribution: 'temurin'
-        
+
+    # 캐시 사용을 위한 Maven 빌드
+    - name: Cache Maven dependencies
+      uses: actions/cache@v2
+      with:
+        path: ~/.m2/repository
+        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+        restore-keys: ${{ runner.os }}-maven-
 
     - name: Build with Maven
       run: mvn -B clean package
 
+    # dockerHub 로그인
     - name: Log in to Docker Hub
       run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
 
+    # 도커 이미지 생성
     - name: Build Docker Image
-      env:
-        DB_USERNAME: ${{ secrets.DB_USERNAME }}
-        DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
       run: |
-        docker build -t yoonshong/yaksok-docker-image --build-arg DB_USERNAME=$DB_USERNAME --build-arg DB_PASSWORD=$DB_PASSWORD .
+        docker build -t yoonshong/yaksok-docker-image .
         docker push yoonshong/yaksok-docker-image
       
+    # 서버에서 Docker 이미지 실행
+    - name: EC2 Docker Run
+      uses: appleboy/ssh-action@master 
+      with:
+        host: ${{ secrets.EC2_HOST }}
+        username: ubuntu
+        key: ${{ secrets.EC2_KEY }}
+        script: |
+          docker rm -f $(docker ps -qa)
+          docker rmi yoonshong/yaksok-docker-image
+          echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
+          docker pull yoonshong/yaksok-docker-image
+          docker run -d -p 8080:8080 \
+          -e DB_USERNAME=${{ secrets.DB_USERNAME }} \
+          -e DB_PASSWORD=${{ secrets.DB_PASSWORD }} \
+          -e SPRING_PROFILES_ACTIVE=docker \
+          yoonshong/yaksok-docker-image:latest
