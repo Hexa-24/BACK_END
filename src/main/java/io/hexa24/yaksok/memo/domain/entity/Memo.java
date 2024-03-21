@@ -13,7 +13,7 @@ public class Memo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String memoText;
+    private String content;
 
     @ManyToOne
     @JoinColumn(name = "member_id") // 외래 키 명시
