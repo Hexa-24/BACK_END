@@ -1,4 +1,4 @@
-package io.hexa24.yaksok.vote.domain.entity;
+package io.hexa24.yaksok.location.domain.entity;
 
 import io.hexa24.yaksok.location.domain.entity.Candidate;
 import io.hexa24.yaksok.member.domain.entity.Member;
