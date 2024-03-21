@@ -1,6 +1,7 @@
 package io.hexa24.yaksok.member.service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
@@ -44,6 +45,12 @@ public class MemberServiceImpl implements MemberService{
     @Override
     public void removeMember(Long id) {
         memberRepository.deleteById(id);
+    }
+
+    @Override
+    public Member findMemberByGatheringIdAndMemberId(UUID gatheringId, Long memberId) {
+        Optional<Member> member = memberRepository.findByGatheringIdAndMemberId(gatheringId, memberId);
+        return member.orElseThrow(RuntimeException::new);
     }
 
 }

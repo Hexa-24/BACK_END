@@ -1,6 +1,7 @@
 package io.hexa24.yaksok.member.repository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.data.repository.CrudRepository;
@@ -12,4 +13,6 @@ import io.hexa24.yaksok.member.domain.entity.Member;
 public interface MemberRepository extends CrudRepository<Member, Long> {
     
     List<Member> findByGatheringId(UUID gatheringId);
+
+    Optional<Member> findByGatheringIdAndMemberId(UUID gatheringId, Long memberId);
 }

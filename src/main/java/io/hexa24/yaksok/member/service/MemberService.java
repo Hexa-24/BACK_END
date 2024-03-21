@@ -12,5 +12,5 @@ public interface MemberService {
     Member addMember(Member member);
     void modifyMember(Member member);
     void removeMember(Long id);
-
+    Member findMemberByGatheringIdAndMemberId(UUID gatheringId, Long memberId);
 }

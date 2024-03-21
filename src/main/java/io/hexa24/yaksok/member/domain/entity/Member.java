@@ -34,6 +34,10 @@ public class Member {
     @Enumerated(EnumType.STRING)
     private Color color;
 
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name="candidate_id")
+    private List<Candidate> candidate;
+
     @ManyToMany
     @JoinTable(name = "vote",
             joinColumns = @JoinColumn(name = "member_id"),

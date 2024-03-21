@@ -25,20 +25,18 @@ public class LocationServiceImpl implements LocationService {
     private final CandidateRepository candidateRepository;
 
     @Override
-    public List<Location> findLocationsByGatheringId(UUID gatheringId) {
-        //return locationRepository.findByGatheringId(gatheringId);
-        return null;
+    public List<Candidate> findLocationsByGatheringId(UUID gatheringId) {
+        return candidateRepository.findByGatheringId(gatheringId);
     }
 
     @Override
-    public List<Location> findLocationsByGatheringIdAndMemberId(UUID gatheringId, Long memberId) {
-        //return locationRepository.findByGatheringIdAndMemberId(gatheringId, memberId);
-        return null;
+    public List<Candidate> findLocationsByGatheringIdAndMemberId(UUID gatheringId, Long memberId) {
+        return candidateRepository.findByGatheringIdAndMemberId(gatheringId, memberId);
     }
     
     @Override
-    public Location findLocation(Long locationId) {
-        return locationRepository.findById(locationId).orElseThrow(RuntimeException::new);
+    public Candidate findLocation(Long locationId) {
+        return candidateRepository.findById(locationId).orElseThrow(RuntimeException::new);
     }
 
     @Override
@@ -90,8 +88,8 @@ public class LocationServiceImpl implements LocationService {
     }
 
     @Override
-    public void removeLocation(Long locationId) {
-        locationRepository.deleteById(locationId);
+    public void removeLocation(Long candidateId) {
+        candidateRepository.deleteById(candidateId);
     }
 
    

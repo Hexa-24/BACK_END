@@ -26,7 +26,7 @@ public class Candidate {
 
     private UUID gatheringId;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private Location location;
 
     @ManyToMany(mappedBy = "voteCandidates")

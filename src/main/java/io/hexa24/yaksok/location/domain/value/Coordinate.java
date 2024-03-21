@@ -18,7 +18,7 @@ public class Coordinate {
         this.y = y;
     }
 
-    public CoordinateDTO toValue() {
+    public CoordinateDTO toDTO() {
         return new CoordinateDTO(this.x,this.y);
     }
 }

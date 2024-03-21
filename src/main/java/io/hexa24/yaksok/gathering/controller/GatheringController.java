@@ -4,6 +4,7 @@ import java.net.URI;
 import java.text.ParseException;
 import java.util.UUID;
 
+import io.hexa24.yaksok.gathering.service.GatheringService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,7 +29,7 @@ import lombok.RequiredArgsConstructor;
 @Slf4j
 public class GatheringController {
 
-    private final GatheringServiceImpl gatheringService;
+    private final GatheringService gatheringService;
 
     /**
      * 식별자(UUID)를 통해 Gathering을 조회하고 GatheringRespDTO형으로 반환하는 GET 메서드 입니다.
@@ -69,5 +70,9 @@ public class GatheringController {
 
         return ResponseEntity.created(location).build();
     }
-
+    @GetMapping("/{gatheringId}/conclusion")
+    public ResponseEntity getGatheringConclusion(@PathVariable UUID gatheringId) {
+        //return ResponseEntity.ok().body(url);
+        return null;
+    }
 }
