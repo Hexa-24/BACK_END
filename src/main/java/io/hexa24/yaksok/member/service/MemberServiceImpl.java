@@ -49,7 +49,7 @@ public class MemberServiceImpl implements MemberService{
 
     @Override
     public Member findMemberByGatheringIdAndMemberId(UUID gatheringId, Long memberId) {
-        Optional<Member> member = memberRepository.findByGatheringIdAndMemberId(gatheringId, memberId);
+        Optional<Member> member = memberRepository.findByIdAndGatheringId(memberId, gatheringId);
         return member.orElseThrow(RuntimeException::new);
     }
 

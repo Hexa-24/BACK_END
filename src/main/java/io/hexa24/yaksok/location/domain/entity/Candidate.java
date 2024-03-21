@@ -35,12 +35,4 @@ public class Candidate {
     @ManyToMany(mappedBy = "memoCandidates")
     private List<Member> memoMembers;
 
-    @Override
-    public String toString() {
-        return getClass().getSimpleName() + "(" +
-                "id = " + id + ", " +
-                "memberId = " + memberId + ", " +
-                "gatheringId = " + gatheringId + ", " +
-                "location = " + location + ")";
-    }
 }
